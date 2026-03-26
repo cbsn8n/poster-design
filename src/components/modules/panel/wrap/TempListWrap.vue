@@ -125,7 +125,7 @@ let hideReplacePrompt: any = localStorage.getItem('hide_replace_prompt')
 async function selectItem(item: IGetTempListData) {
   controlStore.setShowMoveable(false) // 清理掉上一次的Select框
   if (!hideReplacePrompt && dHistoryParams.value.length > 0) {
-    const doNotPrompt = await useConfirm('Add to Design', 'Template content will replace page content', 'warning', { confirmButtonText: 'Got it', cancelButtonText: 'Don't show again' })
+    const doNotPrompt = await useConfirm('Add to Design', 'Template content will replace page content', 'warning', { confirmButtonText: 'Got it', cancelButtonText: "Don't show again" })
     if (!doNotPrompt) {
       localStorage.setItem('hide_replace_prompt', '1')
       hideReplacePrompt = true
