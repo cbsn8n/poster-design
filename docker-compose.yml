@@ -1,0 +1,29 @@
+services:
+  poster-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    environment:
+      - SERVICE_FQDN_POSTERWEB_80
+    depends_on:
+      - poster-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  poster-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    volumes:
+      - poster-cache:/cache
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7001"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  poster-cache:

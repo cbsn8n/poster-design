@@ -1,0 +1,18 @@
+FROM node:20-alpine AS builder
+WORKDIR /usr/src/app
+COPY ./service/package*.json ./
+RUN npm install
+COPY ./service/ ./
+# Patch: set website to point to the web container for Puppeteer screenshot generation
+RUN sed -i "s|website: 'http://127.0.0.1:5173/'|website: 'http://poster-web'|g" src/configs.ts
+RUN npm run build && cp -r ./src/mock ./dist
+
+FROM ghcr.io/puppeteer/puppeteer:latest
+USER root
+RUN mkdir -p /cache
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/dist ./
+RUN npm install
+RUN mkdir -p server && mv -f server.js server/index.js
+EXPOSE 7001
+CMD ["node", "server/index.js"]
