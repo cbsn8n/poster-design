@@ -19,7 +19,7 @@ export type TUpdateWidgetPayload = {
   value: number | string | boolean | Record<string, any>
 }
 
-/** 更新组件数据 */
+/** 更新Components数据 */
 export function updateWidgetData(store: TWidgetStore, { uuid, key, value }: TUpdateWidgetPayload) {
   const widget = store.dWidgets.find((item) => item.uuid === uuid)
   if (widget && widget[key] !== value) {
@@ -117,7 +117,7 @@ export function addWidget(store: TWidgetStore, setting: TdWidgetData) {
   canvasStore.reChangeCanvas()
 }
 
-/** 删除组件 */
+/** DeleteComponents */
 export function deleteWidget(store: TWidgetStore) {
   const historyStore = useHistoryStore()
   const canvasStore = useCanvasStore()
@@ -126,7 +126,7 @@ export function deleteWidget(store: TWidgetStore) {
   const activeElement = store.dActiveElement
   if (!activeElement) return
 
-  let count = 0 // 记录容器里的组件数量
+  let count = 0 // 记录容器里的Components数量
   if (selectWidgets.length !== 0) {
     for (let i = 0; i < selectWidgets.length; ++i) {
       const uuid = selectWidgets[i].uuid
@@ -149,10 +149,10 @@ export function deleteWidget(store: TWidgetStore) {
     const uuid = activeElement.uuid
     const index = widgets.findIndex((item) => item.uuid === uuid)
 
-    // 先删除组件
+    // 先DeleteComponents
     widgets.splice(index, 1)
 
-    // 如果删除的是容器，须将内部组件一并删除
+    // 如果Delete的是容器，须将内部Components一并Delete
     if (activeElement.isContainer) {
       for (let i = widgets.length - 1; i >= 0; --i) {
         if (widgets[i].parent === uuid) {
@@ -230,7 +230,7 @@ export function updateDWidgets(state: TWidgetStore) {
   state.dWidgets = state.getWidgets()
 }
 
-// 锁定所有图层 / 再次调用时还原图层
+// Lock所有Layers / 再次调用时还原Layers
 let lastLocks: boolean[] | null = null
 export function lockWidgets(state: TWidgetStore) {
   if (lastLocks && lastLocks.length > 0) {

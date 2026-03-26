@@ -9,12 +9,12 @@
 import { useCanvasStore, useWidgetStore } from "@/store"
 import { THistoryStore } from ".."
 
-/** push操作历史记录（历史记录功能已重构，该方法不再使用） */
+/** pushAction历史记录（历史记录功能已Refactor，该方法不再使用） */
 export function pushHistory(store: THistoryStore, msg: string = "") {
   // const pageStore = useCanvasStore()
   // const widgetStore = useWidgetStore()
   // console.log('history压栈', '来源: ' + msg)
-  // // 如果有上一次记录，并且与新纪录相同，那么不继续操作
+  // // 如果有上一次记录，并且与新纪录相同，那么不继续Action
   // if (store.dHistory[store.dHistory.length - 1] && store.dHistory[store.dHistory.length - 1] === JSON.stringify(widgetStore.dWidgets)) {
   //   return
   // }
@@ -32,7 +32,7 @@ export function pushHistory(store: THistoryStore, msg: string = "") {
   // store.dHistoryParams.length = store.dHistory.length
 }
 
-/** 添加颜色选择历史记录 */
+/** 添加ColorSelect历史记录 */
 export function pushColorToHistory(store: THistoryStore, color: string) {
   const history = store.dColorHistory
   // 如果已经存在就提到前面来，避免重复
@@ -40,11 +40,11 @@ export function pushColorToHistory(store: THistoryStore, color: string) {
   if (index !== -1) {
     history.splice(index, 1)
   }
-  // 最多保存3种颜色
+  // 最多Save3种Color
   if (history.length === 4) {
     history.splice(history.length - 1, 1)
   }
-  // 把最新的颜色放在头部
+  // 把最新的Color放在头部
   const head = [color]
   store.dColorHistory = head.concat(history)
 }

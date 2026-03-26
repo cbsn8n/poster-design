@@ -79,7 +79,7 @@ export default class DragHelper {
       if (!app || !e) return
       app.classList.add('drag_active') // 整个鼠标全局变成抓取
       const target = e.target as HTMLElement
-      // 选中了元素
+      // 选中了Elements
       this.cloneEl = (target.cloneNode(true) as HTMLElement)
       this.cloneEl.classList.add('flutter')
       // 初始化数据
@@ -112,7 +112,7 @@ export default class DragHelper {
       this.moveFlutter(pageX - width / 2, pageY - height / 2, 0, 0.3)
     }, 10)
   }
-  // 改变漂浮元素（合并多个操作）
+  // 改变漂浮Elements（合并多个Action）
   private moveFlutter(x: number, y: number, d = 0, lazy = 0) {
     const { width, height, finallySize } = this.initial as TInitial
     let scale: string | null = null
@@ -135,7 +135,7 @@ export default class DragHelper {
     original.pop()
     this.cloneEl.style.cssText = original.concat(arr).join(';') + ';'
   }
-  // 结束/完成处理（动画）
+  // 结束/Done处理（动画）
   private finish(done = false) {
     
     if (!this.dragging) {
@@ -164,7 +164,7 @@ export default class DragHelper {
       done ? 0 : 300,
     )
   }
-  // 计算两点之间距离
+  // 计算两点之Spacing离
   private distance({ pageX, pageY }: { pageX: number, pageY: number }) {
     const { pageX: x, pageY: y } = this.initial as TInitial
     return Math.hypot(pageX - x, pageY - y)

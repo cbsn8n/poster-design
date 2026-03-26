@@ -14,7 +14,7 @@ const i18n = createI18n({
   // Use Composition API, Set to false
   allowComposition: true,
   legacy: false,
-  locale: getBrowserLang(),
+  locale: 'en',
   messages: {
     zh,
     en,

@@ -1,20 +1,20 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2021-08-27 15:16:07
- * @Description: 素材列表，主要用于文字组合列表
+ * @Description: Assets列表，主要用于TextGroup列表
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-08-14 18:49:06
 -->
 <template>
   <div class="wrap">
     <!-- <div class="search__wrap">
-      <el-input v-model="searchValue" placeholder="输入关键词搜索" class="input-with-select">
+      <el-input v-model="searchValue" placeholder="Search..." class="input-with-select">
         <template #append>
           <el-button><i class="iconfont icon-search"></i></el-button>
         </template>
       </el-input>
     </div>
-    <el-divider content-position="left">推荐组件</el-divider> -->
+    <el-divider content-position="left">Recommended Components</el-divider> -->
     <classHeader v-show="!state.currentCategory" :types="state.types" @select="selectTypes">
       <template v-slot="{ index }">
         <div class="list-wrap">
@@ -34,8 +34,8 @@
           <!-- </edit-model> -->
         </div>
       </el-space>
-      <div v-show="state.loading" class="loading"><i class="el-icon-loading"></i> 拼命加载中</div>
-      <div v-show="state.loadDone" class="loading">全部加载完毕</div>
+      <div v-show="state.loading" class="loading"><i class="el-icon-loading"></i> Loading...</div>
+      <div v-show="state.loadDone" class="loading">All loaded</div>
     </ul>
   </div>
 </template>
@@ -64,7 +64,7 @@ const dragHelper = new DragHelper()
 let isDrag = false
 let startPoint = { x: 99999, y: 99999 }
 let tempDetail: TTempDetail | null = null
-// 缓存组件用以减少接口请求的次数
+// 缓存Components用以减少接口请求的次数
 const compsCache: any = {}
 const state = reactive<TState>({
   loading: false,
@@ -85,8 +85,8 @@ onMounted(async () => {
   if (state.types.length <= 0) {
     // const types = await api.material.getKinds({ type: 3 })
     state.types = [
-      { cate: 'text', name: '高级特效文字' },
-      { cate: 'comp', name: '示例组合模板' },
+      { cate: 'text', name: 'Advanced Text Effects' },
+      { cate: 'comp', name: 'Sample Component Templates' },
     ]
     for (const iterator of state.types) {
       const { list } = await api.home.getCompList({
@@ -190,8 +190,8 @@ const selectItem = async (item: TGetCompListResult) => {
   if (isDrag) {
     return
   }
-  // store.commit('setShowMoveable', false) // 清理掉上一次的选择
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择
+  // store.commit('setShowMoveable', false) // 清理掉上一次的Select
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select
 
   tempDetail = tempDetail || (await getCompDetail({ id: item.id, type: 1 }))
   // let group = JSON.parse(tempDetail.data)
@@ -220,14 +220,14 @@ const selectItem = async (item: TGetCompListResult) => {
 }
 
 function getCompDetail(params: TGetTempDetail): Promise<TTempDetail> {
-  // 有缓存则直接返回组件数据，否则请求获取数据
+  // 有缓存则直接BackComponents数据，否则请求获取数据
   return new Promise((resolve) => {
     if (compsCache[params.id]) {
       resolve(compsCache[params.id])
     } else
       api.home.getTempDetail(params).then((res: any) => {
         resolve(res)
-        compsCache[params.id] = res // 缓存请求的组件数据
+        compsCache[params.id] = res // 缓存请求的Components数据
       })
   })
 }

@@ -1,21 +1,21 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-02-13 22:18:35
- * @Description: 我的
+ * @Description: My
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-08-12 09:32:00
 -->
 <template>
   <div class="wrap">
     <el-tabs v-model="state.tabActiveName" :stretch="true" class="tabs" @tab-change="tabChange">
-      <el-tab-pane label="资源管理" name="pics"> </el-tab-pane>
-      <el-tab-pane label="我的作品" name="design"> </el-tab-pane>
+      <el-tab-pane label="Resources" name="pics"> </el-tab-pane>
+      <el-tab-pane label="My Designs" name="design"> </el-tab-pane>
     </el-tabs>
     <div v-show="state.tabActiveName === 'pics'">
       <uploader v-model="state.percent" class="upload" @done="uploadDone">
-        <el-button class="upload-btn" plain><i class="iconfont icon-upload" /> 上传图片</el-button>
+        <el-button class="upload-btn" plain><i class="iconfont icon-upload" /> Upload Image</el-button>
       </uploader>
-      <el-button disabled class="upload-btn upload-psd" plain type="primary" @click="openPSD">导入 PSD</el-button>
+      <el-button disabled class="upload-btn upload-psd" plain type="primary" @click="openPSD">Import PSD</el-button>
       <div style="margin: 1rem; height: 100vh">
         <photo-list ref="imgListRef" :edit="state.editOptions.photo" :isDone="state.isDone" :listData="state.imgList" @load="load" @drag="dragStart" @select="selectImg" />
       </div>
@@ -23,8 +23,8 @@
     <div v-show="state.tabActiveName === 'design'" class="wrap">
       <ul ref="listRef" v-infinite-scroll="loadDesign" class="infinite-list" :infinite-scroll-distance="150" style="overflow: auto">
         <img-water-fall :edit="state.editOptions.works" :listData="state.designList" @select="selectDesign" />
-        <!-- <div v-show="loading" class="loading"><i class="el-icon-loading"></i>拼命加载中..</div> -->
-        <div v-show="state.isDone" class="loading">全部加载完毕</div>
+        <!-- <div v-show="loading" class="loading"><i class="el-icon-loading"></i>Loading.....</div> -->
+        <div v-show="state.isDone" class="loading">All loaded</div>
       </ul>
     </div>
   </div>
@@ -143,7 +143,7 @@ const loadDesign = (init: boolean = false) => {
 }
 
 function checkHeight(el: HTMLElement, loadFn: Function) {
-  // 检查高度是否占满，否则继续请求下一页
+  // 检查H度是否占满，否则继续请求下一页
   if (el.offsetHeight && el.firstElementChild) {
     const isLess = el.offsetHeight > (el.firstElementChild as HTMLElement).offsetHeight
     isLess && loadFn()
@@ -160,8 +160,8 @@ onMounted(() => {
 const selectImg = async (index: number) => {
   const item = state.imgList[index]
 
-  // store.commit('setShowMoveable', false) // 清理掉上一次的选择
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择
+  // store.commit('setShowMoveable', false) // 清理掉上一次的Select
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select
 
   let setting = JSON.parse(JSON.stringify(wImageSetting))
   const img = await setImageData(item)
@@ -182,10 +182,10 @@ type controlImgParam = {
 }
 
 const deleteImg = async ({ i, item }: controlImgParam) => {
-  // store.commit('setShowMoveable', false) // 清理掉上一次的选择框
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择框
+  // store.commit('setShowMoveable', false) // 清理掉上一次的Select框
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select框
 
-  const isPass = await useConfirm('警告', '删除后不可找回，已引用资源将会失效，请谨慎操作', 'warning')
+  const isPass = await useConfirm('Warning', 'Cannot be recovered after deletion. Referenced resources will become invalid.', 'warning')
   if (!isPass) {
     return false
   }
@@ -196,7 +196,7 @@ const deleteImg = async ({ i, item }: controlImgParam) => {
   imgListRef.value.delItem(i) // 通知标记
 }
 const deleteWorks = async ({ i, item }: controlImgParam) => {
-  const isPass = await useConfirm('警告', '删除后不可找回，请确认操作', 'warning')
+  const isPass = await useConfirm('Warning', 'Cannot be recovered after deletion. Please confirm.', 'warning')
   if (isPass) {
     await api.material.deleteMyWorks({ id: item.id })
     setTimeout(() => {
@@ -209,13 +209,13 @@ const deleteWorks = async ({ i, item }: controlImgParam) => {
 state.editOptions = {
   photo: [
     {
-      name: '删除',
+      name: 'Delete',
       fn: deleteImg,
     },
   ],
   works: [
     {
-      name: '删除',
+      name: 'Delete',
       fn: deleteWorks,
     },
   ],

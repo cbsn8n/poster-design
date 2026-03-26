@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang <https://m.palxp.cn>
  * @Date: 2021-08-27 15:16:07
- * @Description: 素材列表
+ * @Description: Assets列表
  * @LastEditors: Jeremy Yu <https://github.com/JeremyYu-cn>
  * @LastEditTime: 2024-09-25 00:39:00
 -->
@@ -32,8 +32,8 @@
           <el-image class="list__img" :src="item.thumb" fit="contain" lazy loading="lazy" />
         </div>
       </el-space>
-      <div v-show="state.loading" class="loading"><i class="el-icon-loading" /> 拼命加载中</div>
-      <div v-show="state.loadDone" :style="state.list.length <= 0 ? 'padding-top: 4rem' : ''" class="loading">全部加载完毕</div>
+      <div v-show="state.loading" class="loading"><i class="el-icon-loading" /> Loading...</div>
+      <div v-show="state.loadDone" :style="state.list.length <= 0 ? 'padding-top: 4rem' : ''" class="loading">All loaded</div>
     </ul>
   </div>
 </template>
@@ -107,9 +107,9 @@ onMounted(async () => {
   if (state.types.length <= 0) {
     // const types = await api.material.getKinds({ type: 2 })
     state.types = [
-      { cate: 'png', name: '贴纸，图片类型' },
-      { cate: 'svg', name: 'SVG矢量元素，可编辑' },
-      { cate: 'mask', name: '容器Mask，图形遮罩' },
+      { cate: 'png', name: 'Stickers, image type' },
+      { cate: 'svg', name: 'SVG vectors, editable' },
+      { cate: 'mask', name: 'Container mask, shape clipping' },
     ]
     for (const iterator of state.types) {
       const { list } = await api.material.getList({
@@ -164,7 +164,7 @@ const load = async (init: boolean = false) => {
 }
 
 const searchChange = (_: Event) => {
-  state.currentCategory = { name: '搜索结果' }
+  state.currentCategory = { name: 'Search Results' }
   load(true)
 }
 
@@ -194,8 +194,8 @@ async function selectItem(item: TGetListData) {
   if (isDrag) {
     return
   }
-  // store.commit('setShowMoveable', false) // 清理掉上一次的选择
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择
+  // store.commit('setShowMoveable', false) // 清理掉上一次的Select
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select
 
   let setting = item.type === 'svg' ? JSON.parse(JSON.stringify(wSvgSetting)) : JSON.parse(JSON.stringify(wImageSetting))
   const img = await setImageData(item)

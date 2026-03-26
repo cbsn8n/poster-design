@@ -1,49 +1,49 @@
 <template>
   <div id="page-style">
     <div v-if="state.showBgLib" style="width: 256px; height: 100%">
-      <span class="header-back" @click="state.showBgLib = false"> <i class="iconfont icon-right"></i> 选择背景 </span>
+      <span class="header-back" @click="state.showBgLib = false"> <i class="iconfont icon-right"></i> Select Background </span>
       <bg-img-list-wrap style="padding-top: 2rem" model="stylePanel" />
     </div>
     <el-collapse v-else v-model="state.activeNames">
-      <el-collapse-item title="画布尺寸" name="1">
+      <el-collapse-item title="Canvas Size" name="1">
         <sizeEditor :params="state.innerElement">
           <i @click="openSizeEdit" class="icon sd-edit"></i>
         </sizeEditor>
       </el-collapse-item>
-      <el-collapse-item title="背景设置" name="2">
-        <el-button style="width: 100%; margin: 0 0 1rem 0" type="primary" link @click="state.showBgLib = true">在背景库中选择</el-button>
+      <el-collapse-item title="Background" name="2">
+        <el-button style="width: 100%; margin: 0 0 1rem 0" type="primary" link @click="state.showBgLib = true">Choose from Background Library</el-button>
         <Tabs :value="state.mode" @update:value="onChangeMode">
           <TabPanel v-for="label in state.modes" :key="label" :label="label"></TabPanel>
         </Tabs>
-        <color-select v-show="state.mode === '颜色'" v-model="state.innerElement.backgroundColor" :modes="['纯色', '渐变']" @change="colorChange" />
-        <div v-if="state.mode === '图片' && state.innerElement.backgroundImage" style="margin-top: 1.2rem">
+        <color-select v-show="state.mode === 'Color'" v-model="state.innerElement.backgroundColor" :modes="['Solid', 'Gradient']" @change="colorChange" />
+        <div v-if="state.mode === 'Image' && state.innerElement.backgroundImage" style="margin-top: 1.2rem">
           <div class="backgroud-wrap">
             <el-image style="height: 100%" :src="state.innerElement.backgroundImage" fit="contain"></el-image>
             <div class="bg-control">
               <div class="btns">
                 <uploader style="width: 47%" @done="uploadImgDone">
-                  <el-button style="width: 100%" plain>上传图片</el-button>
+                  <el-button style="width: 100%" plain>Upload Image</el-button>
                 </uploader>
-                <el-button style="width: 47%" @click="state.showBgLib = true" plain>背景库</el-button>
+                <el-button style="width: 47%" @click="state.showBgLib = true" plain>Backgrounds</el-button>
               </div>
             </div>
             <div class="bg-options">
-              <el-tooltip :show-after="300" :hide-after="0" effect="dark" content="下载图片" placement="top">
+              <el-tooltip :show-after="300" :hide-after="0" effect="dark" content="Download Image" placement="top">
                 <div @click="downloadBG" class="btn-item"><icon-download width="16" /></div>
               </el-tooltip>
-              <el-tooltip :show-after="300" :hide-after="0" effect="dark" content="删除" placement="top">
+              <el-tooltip :show-after="300" :hide-after="0" effect="dark" content="Delete" placement="top">
                 <div @click="deleteBg" class="btn-item"><icon-delete width="16" /></div>
               </el-tooltip>
             </div>
           </div>
           <!-- <el-image style="max-height: 428px" :src="state.innerElement.backgroundImage" fit="contain"></el-image> -->
-          <!-- <el-button class="btn-wrap" size="small" @click="deleteBg">删除</el-button> -->
+          <!-- <el-button class="btn-wrap" size="small" @click="deleteBg">Delete</el-button> -->
         </div>
-        <uploader v-show="state.mode === '图片' && !state.innerElement.backgroundImage" class="btn-wrap" @done="uploadImgDone">
-          <el-button style="width: 100%" plain>上传背景图</el-button>
+        <uploader v-show="state.mode === 'Image' && !state.innerElement.backgroundImage" class="btn-wrap" @done="uploadImgDone">
+          <el-button style="width: 100%" plain>Upload Background</el-button>
         </uploader>
-        <!-- <el-button v-show="state.mode === '图片' && state.innerElement.backgroundImage" class="btn-wrap" size="small" @click="downloadBG">{{ state.downP ? state.downP + ' %' : '下载背景图' }}</el-button> -->
-        <el-button v-show="state.mode === '图片' && state.innerElement.backgroundImage" class="btn-wrap" @click="shiftOut">将背景分离为图层</el-button>
+        <!-- <el-button v-show="state.mode === 'Image' && state.innerElement.backgroundImage" class="btn-wrap" size="small" @click="downloadBG">{{ state.downP ? state.downP + ' %' : 'Download Background' }}</el-button> -->
+        <el-button v-show="state.mode === 'Image' && state.innerElement.backgroundImage" class="btn-wrap" @click="shiftOut">Separate Background as Layer</el-button>
       </el-collapse-item>
     </el-collapse>
     <createDesign ref="sizeEditRef" :params="state.innerElement" />
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-// 画布组件样式
+// 画布Components样式
 // const NAME = 'page-style'
 import { nextTick, onMounted, reactive, watch, ref, Ref } from 'vue'
 import colorSelect, { colorChangeData } from '@/components/modules/settings/colorSelect.vue'
@@ -87,8 +87,8 @@ const state = reactive<TState>({
   tag: false,
   ingoreKeys: ['backgroundColor', 'name', 'width', 'height'],
   downP: 0,
-  mode: '颜色',
-  modes: ['颜色', '图片'],
+  mode: 'Color',
+  modes: ['Color', 'Image'],
   showBgLib: false,
 })
 const sizeEditRef: Ref<typeof createDesign | null> = ref(null)
@@ -117,13 +117,13 @@ onMounted(() => {
 })
 
 function colorChange(e: colorChangeData) {
-  if (e.mode === '渐变') {
+  if (e.mode === 'Gradient') {
     state.innerElement.backgroundGradient = e.color
   } else state.innerElement.backgroundGradient = ''
 }
 function onChangeMode(value: string) {
   state.mode = value
-  if (value === '颜色') {
+  if (value === 'Color') {
     _localTempBG = state.innerElement.backgroundImage
     finish('backgroundImage', '')
   } else {
@@ -184,7 +184,7 @@ async function downloadBG() {
   })
 }
 
-// 分离背景图，添加到画布中
+// 分离Background图，添加到画布中
 async function shiftOut() {
   let setting = JSON.parse(JSON.stringify(wImageSetting))
   setting.width = state.innerElement.width

@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-02-11 18:48:23
- * @Description: 照片图库 Form:Unsplash无版权图片
+ * @Description: Photo Library Form:UnsplashNone版权Image
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-08-14 18:50:09
 -->
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-// 图片列表
+// Image列表
 // const NAME = 'img-list-wrap'
 import { toRefs, reactive, computed, onMounted } from 'vue'
 // import wImage from '../../widgets/wImage/wImage.vue'
@@ -75,8 +75,8 @@ onMounted(async () => {
   if (state.types.length <= 0) {
     // const types = await api.material.getKinds({ type: 4 })
     state.types = [
-      { id: 1, name: '照片列表，自适应布局' },
-      { id: 2, name: '照片列表，自适应布局' },
+      { id: 1, name: 'Photo list, adaptive layout' },
+      { id: 2, name: 'Photo list, adaptive layout' },
     ]
     for (const iterator of state.types) {
       const { list } = await api.material.getImagesList({ cate: iterator.id, pageSize: 2 })
@@ -88,8 +88,8 @@ onMounted(async () => {
 const selectImg = async (index: number, list: TGetImageListResult[]) => {
   const item = list ? list[index] : state.recommendImgList[index]
 
-  // store.commit('setShowMoveable', false) // 清理掉上一次的选择
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择
+  // store.commit('setShowMoveable', false) // 清理掉上一次的Select
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select
 
   let setting = JSON.parse(JSON.stringify(wImageSetting))
   const img = await setImageData(item) // await getImage(item.url)

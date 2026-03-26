@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2021-08-03 17:50:21
- * @Description: 旧大小控制组件，已交由moveable控制 (已不使用)
+ * @Description: 旧Size控制Components，已交由moveable控制 (已不使用)
  * @LastEditors: ShawnPhang
  * @LastEditTime: 2021-08-09 11:13:09
 -->
@@ -102,7 +102,7 @@
 <script>
 // import { mapGetters, mapActions } from 'vuex'
 
-// // 组件大小控制器
+// // ComponentsSize控制器
 // const NAME = 'size-control'
 
 // export default {

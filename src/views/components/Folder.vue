@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-04-03 19:15:21
- * @Description: 文件 
+ * @Description: File 
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-10 07:16:00
 -->
@@ -12,13 +12,13 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item><div @click="$emit('select', 'newDesign')" class="item">创建设计</div></el-dropdown-item>
-        <el-dropdown-item @click="openPSD">导入文件</el-dropdown-item>
-        <el-dropdown-item @click="$emit('select', 'save')" divided>保存</el-dropdown-item>
-        <el-dropdown-item @click="$emit('select', 'download')">导出文件</el-dropdown-item>
-        <el-dropdown-item disabled>版本记录</el-dropdown-item>
-        <el-dropdown-item disabled>批量套模板</el-dropdown-item>
-        <el-dropdown-item @click="$emit('select', 'changeLineGuides')" divided>标尺与参考线</el-dropdown-item>
+        <el-dropdown-item><div @click="$emit('select', 'newDesign')" class="item">New Design</div></el-dropdown-item>
+        <el-dropdown-item @click="openPSD">Import File</el-dropdown-item>
+        <el-dropdown-item @click="$emit('select', 'save')" divided>Save</el-dropdown-item>
+        <el-dropdown-item @click="$emit('select', 'download')">ExportFile</el-dropdown-item>
+        <el-dropdown-item disabled>Version History</el-dropdown-item>
+        <el-dropdown-item disabled>Batch Templates</el-dropdown-item>
+        <el-dropdown-item @click="$emit('select', 'changeLineGuides')" divided>Ruler & Guides</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

@@ -13,11 +13,11 @@ import cssLoader from './plugins/cssLoader'
 import type { App } from 'vue'
 
 /**
- * 全局组件方法
+ * 全局Components方法
  */
 export default {
   install(myVue: App) {
-    /** 全局组件注册 */
+    /** 全局Components注册 */
     modules(myVue)
     /** iconfont 注入 */
     cssLoader(_config.ICONFONT_EXTRA)

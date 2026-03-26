@@ -1,6 +1,6 @@
 
 
-/** 公共API返回结果 */
+/** 公共APIBack结果 */
 type TCommResResult<T> = {
   code: number
   msg: string
@@ -20,7 +20,7 @@ type TCommonItemData = {
   value: TItem2DataParam
 }
 
-/** 分页查询公共返回 */
+/** 分页查询公共Back */
 type TPageRequestResult<T> = {
   list: T
   total: number

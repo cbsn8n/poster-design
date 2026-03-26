@@ -40,13 +40,13 @@ watch(
       return
     }
     if (!moveable) return
-    // 选中非面板 并且不是组合内的元素
+    // 选中非面板 并且不是Group内的Elements
     if (Number(val.uuid) != -1) {
       await nextTick()
       const target = `[id="${val.uuid}"]`
       _target = `[id="${val.uuid}"]`
-      moveable.rotatable = true // 选择时会取消旋转
-      // 方向点位设置
+      moveable.rotatable = true // Select时会CancelRotation
+      // 方向点位Settings
       // this.moveable.renderDirections = val.type === 'w-text' ? ['e', 'se'] : 'w-image' ? ['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se'] : ['nw', 'ne', 'sw', 'se']
       switch (val.type) {
         case 'w-text':
@@ -70,7 +70,7 @@ watch(
       // // End
       controlStore.setShowMoveable(true)
       // store.commit('setShowMoveable', true)
-      // 参考线设置
+      // 参考线Settings
       if (moveable.elementGuidelines && !moveable.elementGuidelines.includes(target)) {
         moveable.elementGuidelines.push(target)
       }
@@ -82,7 +82,7 @@ watch(
           moveable.target = `[id="empty"]`
         }, 210)
       }
-      // feature: 可以遍历来设置参考线，目前先粗暴清空
+      // feature: 可以遍历来Settings参考线，目前先粗暴清空
       moveable.elementGuidelines && (moveable.elementGuidelines.length = 0)
     }
   }
@@ -104,7 +104,7 @@ watch(
   () => showRotatable.value,
   (val) => {
     if (!moveable) return
-    // TODO: 这里是通过旋转来判断是否可以操作
+    // TODO: 这里是通过Rotation来判断是否可以Action
     moveable.renderDirections = val ? ['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se'] : []
     moveable.resizable = val
     // this.moveable.scalable = val
@@ -147,14 +147,14 @@ watch(
   }
 )
 
-/** 选择的元素 */
+/** Select的Elements */
 watch(
   () => dSelectWidgets.value,
   (items) => {
     if (!moveable) return
     const alt = dAltDown.value
     // if (items.length > 1) {
-    //   console.log('打开组合面板')
+    //   console.log('打开Group面板')
     // }
     if (alt) {
       for (let i = 0; i < items.length; i++) {
@@ -173,7 +173,7 @@ watch(
   { deep: true }
 )
 
-/** 标尺线 */
+/** Ruler线 */
 watch(
   () => guidelines.value,
   (lines) => {
@@ -189,7 +189,7 @@ type TMoveableOptions = {
   container?:  HTMLElement | null
   zoom: number
   draggable: boolean
-  clippable: boolean // 裁剪
+  clippable: boolean // Crop
   throttleDrag: number
   resizable: boolean
   throttleResize: number
@@ -239,7 +239,7 @@ onMounted(() => {
     // container: document.querySelector('#page-design'),
     zoom: 0.8,
     draggable: true,
-    clippable: false, // 裁剪
+    clippable: false, // Crop
     throttleDrag: 0,
     resizable: true,
     throttleResize: 0,
@@ -353,7 +353,7 @@ onMounted(() => {
   .on('rotate', ({ target, beforeDist, dist, transform }: any) => {
     // console.log('onRotate', Number(this.dActiveElement.rotate) + Number(beforeDist + dist))
     target.style.transform = transform
-    target.style.height = dActiveElement.value?.height + 'px' // 修正文字高度变化
+    target.style.height = dActiveElement.value?.height + 'px' // 修正TextH度变化
   })
   .on('rotateEnd', (e: any) => {
     const tf = e.target.style.transform
@@ -444,7 +444,7 @@ onMounted(() => {
       //   return
       // }
       console.log('重置translate', dActiveElement.value)
-      // 转换成位置
+      // 转换成Position
       // if (this.dActiveElement.cache && this.dActiveElement.cache.recordLeft) {
       //   const left = e.lastEvent.drag.translate[0] + Number(this.dActiveElement.cache.recordLeft)
       //   const top = e.lastEvent.drag.translate[1] + Number(this.dActiveElement.cache.recordTop)
@@ -499,7 +499,7 @@ onMounted(() => {
       resizeTempData = null
       // await this.$nextTick()
       moveable.updateRect()
-      // 临时处理缩放后细线问题 https://github.com/palxiao/poster-design/issues/75
+      // 临时处理Zoom后细线问题 https://github.com/palxiao/poster-design/issues/75
       controlStore.setShowMoveable(false)
       // store.commit('setShowMoveable', false)
       setTimeout(() => {
@@ -623,9 +623,9 @@ onMounted(() => {
     console.log('onResizeGroupEnd', targets, isDrag)
   })
 
-  // -- 选择功能 Start --
+  // -- Select功能 Start --
   useSelecto(moveable)
-  // -- 选择功能 END --
+  // -- Select功能 END --
 
 })
 

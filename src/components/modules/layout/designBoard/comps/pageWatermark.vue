@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-04-08 19:19:17
- * @Description: 水印组件封装
+ * @Description: 水印Components封装
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-08 21:30:12
 -->

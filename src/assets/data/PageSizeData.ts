@@ -7,67 +7,67 @@
  */
 export default [
   {
-    name: '手机海报',
+    name: 'Phone Poster',
     width: 1242,
     height: 2208,
     icon: 'sd-shouji'
   },
   {
-    name: '横版海报',
+    name: 'Landscape Poster',
     width: 900,
     height: 500,
     icon: 'sd-wangye'
   },
   {
-    name: '公众号首图',
+    name: 'WeChat Cover',
     width: 900,
     height: 383,
     icon: 'sd-weixin'
   },
   {
-    name: '公众号次图',
+    name: 'WeChat Secondary',
     width: 500,
     height: 500,
     icon: 'sd-weixin'
   },
   {
-    name: '小红书配图',
+    name: 'Xiaohongshu Image',
     width: 1242,
     height: 1660,
     icon: 'sd-shouji'
   },
   {
-    name: '商品主图',
+    name: 'Product Main Image',
     width: 800,
     height: 800,
     icon: 'sd-wangye'
   },
   {
-    name: '电商详情页',
+    name: 'E-commerce Detail',
     width: 750,
     height: 1000,
     icon: 'sd-wangye'
   },
   {
-    name: '电商竖版海报',
+    name: 'E-commerce Portrait',
     width: 750,
     height: 950,
     icon: 'sd-shouji'
   },
   {
-    name: '电商横版海报',
+    name: 'E-commerce Landscape',
     width: 750,
     height: 390,
     icon: 'sd-wangye'
   },
   {
-    name: '小程序封面',
+    name: 'Mini Program Cover',
     width: 520,
     height: 416,
     icon: 'sd-weixin'
   },
   {
-    name: '壁纸 / PPT(16:9)',
+    name: 'Wallpaper / PPT (16:9)',
     width: 1920,
     height: 1080,
     icon: 'sd-wangye'

@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2023-10-14 20:16:48
- * @Description: 找出页面中使用的字体
+ * @Description: 找出页面中使用的Font
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2023-10-14 20:29:26
  */

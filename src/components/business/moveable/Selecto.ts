@@ -10,15 +10,15 @@ export default function(moveable: Moveable) {
     container: document.getElementById('page-design'),
     selectableTargets: ['.layer'],
     selectByClick: false,
-    // 是否从内部目标中选择(default: true)
+    // 是否从内部目标中Select(default: true)
     selectFromInside: false,
-    // 选择后，是否与所选目标一起选择下一个目标
+    // Select后，是否与所选目标一起Select下一个目标
     continueSelect: false,
     // Determines which key to continue selecting the next target via keydown and keyup.
     toggleContinueSelect: 'shift',
     // The container for keydown and keyup events
     keyContainer: document.getElementById('page-design'),
-    // 目标与要选择的拖动区域重叠的速率。(默认:100)
+    // 目标与要Select的拖动区域重叠的速率。(默认:100)
     hitRate: 5,
     getElementRect: getElementInfo,
   })

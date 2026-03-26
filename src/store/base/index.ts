@@ -28,11 +28,11 @@ type TUserAction = {
 const useBaseStore = defineStore<'base', TStoreBaseState, {}, TUserAction>('base', {
   state: () => ({
     loading: null,
-    watermark: ['迅排设计', 'poster-design'],
-    fonts: [], // 缓存字体列表
+    watermark: ['Poster Design', 'poster-design'],
+    fonts: [], // 缓存Font列表
   }),
   actions: {
-    /** 隐藏loading */
+    /** Hideloading */
     hideLoading() {
       setTimeout(() => {
         this.loading = false

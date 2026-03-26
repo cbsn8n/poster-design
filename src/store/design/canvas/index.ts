@@ -12,19 +12,19 @@ import { TCanvasState, TScreeData, TGuidelinesData, TStoreAction, TPageState } f
 import { useWidgetStore } from "@/store";
 import pageDefault from './page-default';
 
-/** 画布全局设置 */
+/** 画布全局Settings */
 const CanvasStore = defineStore<"canvasStore", TCanvasState, {}, TStoreAction>("canvasStore", {
   state: () => ({
-    dZoom: 0, // 画布缩放百分比
+    dZoom: 0, // 画布Zoom百分比
     dPresetPadding: 25, // 画布默认预留边距
-    dBottomHeight: 0, // 画布底部工具栏高度
+    dBottomHeight: 0, // 画布底部工具栏H度
     dPaddingTop: 0, // 用于画布垂直居中的修正值
     dScreen: {
-      width: 0, // 记录编辑界面的宽度
-      height: 0, // 记录编辑界面的高度
+      width: 0, // 记录编辑界面的W度
+      height: 0, // 记录编辑界面的H度
     },
     guidelines: {
-      // moveable 标尺辅助线
+      // moveable Ruler辅助线
       verticalGuidelines: [],
       horizontalGuidelines: [],
     },
@@ -38,7 +38,7 @@ const CanvasStore = defineStore<"canvasStore", TCanvasState, {}, TStoreAction>("
     // },
   },
   actions: {
-    /** 更新画布缩放百分比 */
+    /** 更新画布Zoom百分比 */
     updateZoom(zoom: number) {
       this.dZoom = zoom
     },
@@ -46,12 +46,12 @@ const CanvasStore = defineStore<"canvasStore", TCanvasState, {}, TStoreAction>("
     updatePaddingTop(num: number) {
       this.dPaddingTop = num
     },
-    /** 更新编辑界面的宽高 */
+    /** 更新编辑界面的WH */
     updateScreen({ width, height }: TScreeData) {
       this.dScreen.width = width
       this.dScreen.height = height
     },
-    /** 修改标尺线 */
+    /** 修改Ruler线 */
     updateGuidelines(lines: TGuidelinesData) {
       this.guidelines = { ...this.guidelines, ...lines }
     },
@@ -72,7 +72,7 @@ const CanvasStore = defineStore<"canvasStore", TCanvasState, {}, TStoreAction>("
       const widgetStore = useWidgetStore()
       return widgetStore.dLayouts[this.dCurrentPage].global
     },
-    /** 设置 Page */
+    /** Settings Page */
     setDPage(data: TPageState) {
       this.dPage = data
       this.updateDPage()
@@ -92,11 +92,11 @@ const CanvasStore = defineStore<"canvasStore", TCanvasState, {}, TStoreAction>("
       //   cur[val] = data[val]
       // })
     },
-    /** 设置底部工具栏高度 */
+    /** Settings底部工具栏H度 */
     setBottomHeight(h: number) {
       this.dBottomHeight = h
     },
-    /** 更新当前页面下标 */
+    /** 更新Current Page下标 */
     setDCurrentPage(n: number) {
       this.dCurrentPage = n
     }

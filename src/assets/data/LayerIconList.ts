@@ -12,13 +12,13 @@ export default [
   {
     key: 'zIndex',
     icon: 'icon-layer-up',
-    tip: '上一层',
+    tip: 'Bring Forward',
     value: 1,
   },
   {
     key: 'zIndex',
     icon: 'icon-layer-down',
-    tip: '下一层',
+    tip: 'Send Backward',
     value: -1,
   },
 ] as TIconItemSelectData[]

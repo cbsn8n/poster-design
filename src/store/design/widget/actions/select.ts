@@ -5,7 +5,7 @@ export type TSelectWidgetData = {
   uuid: string
 }
 
-// TODO: 选中元件与取消选中
+// TODO: 选中元件与Deselect
 export function selectWidget(store: TWidgetStore, { uuid }: TSelectWidgetData) {
   const controlStore = useControlStore()
   const pageStore = useCanvasStore()
@@ -27,7 +27,7 @@ export function selectWidget(store: TWidgetStore, { uuid }: TSelectWidgetData) {
       const index = selectWidgets.findIndex((item) => {
         return item.uuid === uuid
       })
-      // 如果已经存在则取消选择，否则加入选取
+      // 如果已经存在则CancelSelect，否则加入选取
       if (index !== -1) {
         selectWidgets.splice(index, 1)
         if (selectWidgets.length === 0) {
@@ -62,7 +62,7 @@ export function selectWidget(store: TWidgetStore, { uuid }: TSelectWidgetData) {
   }
 }
 
-/** 多选元素 */
+/** Multi-selectElements */
 export function selectWidgetsInOut(store: TWidgetStore, { uuid }: TSelectWidgetData) {
   const pageStore = useCanvasStore()
 
@@ -77,7 +77,7 @@ export function selectWidgetsInOut(store: TWidgetStore, { uuid }: TSelectWidgetD
     const index = selectWidgets.findIndex((item) => {
       return item.uuid === uuid
     })
-    // 如果已经存在则取消选择，否则加入选取
+    // 如果已经存在则CancelSelect，否则加入选取
     if (index !== -1) {
       selectWidgets.splice(index, 1)
       if (selectWidgets.length === 0) {

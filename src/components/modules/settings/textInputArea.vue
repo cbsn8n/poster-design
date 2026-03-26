@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-// 文本域输入组件
+// Text域输入Components
 // const NAME = 'text-input-area'
 
 type TProps = {

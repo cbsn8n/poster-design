@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-03-06 13:53:30
- * @Description: 获取图片在鼠标焦点的颜色
+ * @Description: 获取Image在鼠标焦点的Color
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2023-09-19 17:32:40
  */
@@ -29,7 +29,7 @@ export default class PointImg {
     /**
      * @param x Number x坐标起点
      * @param y Number y坐标起点
-     * @return color Object 包含颜色的rgba #16进制颜色
+     * @return color Object 包含Color的rgba #16进制Color
      */
     const color: Record<string, string> = {}
     try {
@@ -53,7 +53,7 @@ export default class PointImg {
         color['#'] = '#' + first + second + third
       }
     } catch (error) {
-      // console.log('此为解析图片点位异常')
+      // console.log('此为解析Image点位异常')
     }
 
     return color

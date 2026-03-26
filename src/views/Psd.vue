@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-01-10 14:57:53
- * @Description: Psd文件解析
+ * @Description: PsdFile解析
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2025-01-15 22:05:57
 -->
@@ -10,12 +10,12 @@
     <div class="top-nav">
       <div class="top-nav-wrap">
         <div class="top-left">
-          <div class="name" style="font-size: 15px">在线PSD解析</div>
+          <div class="name" style="font-size: 15px">Online PSD Parser</div>
         </div>
         <div style="flex: 1">
-          <el-button plain type="primary" @click="jump2word">设计 PSD 规范</el-button>
+          <el-button plain type="primary" @click="jump2word">PSD Design Guide</el-button>
         </div>
-        <el-button v-show="state.isDone" @click="clear">清空模板</el-button>
+        <el-button v-show="state.isDone" @click="clear">Clear Template</el-button>
         <div class="v-tips">
           <HeaderOptions :isDone="state.isDone" @change="optionsChange" />
         </div>
@@ -27,16 +27,16 @@
       <design-board class="page-design-wrap" pageDesignCanvasId="page-design-canvas">
         <div v-if="state.isDone" class="shelter" :style="{ width: (dPage.width * dZoom) / 100 + 'px', height: (dPage.height * dZoom) / 100 + 'px' }"></div>
         <uploader v-else accept=".psd" :hold="true" :drag="true" class="uploader" @load="selectFile">
-          <div class="uploader__box"><img style="margin-right: 1rem" src="https://cdn.dancf.com/design/svg/icon_psdimport.37e6f23e.svg" alt="upload" /> 在此拖入或选择 PSD 文件</div>
+          <div class="uploader__box"><img style="margin-right: 1rem" src="https://cdn.dancf.com/design/svg/icon_psdimport.37e6f23e.svg" alt="upload" /> 在此Drop here或Select PSD File</div>
         </uploader>
       </design-board>
       <style-panel v-show="state.isDone"></style-panel>
     </div>
-    <!-- 缩放控制 -->
+    <!-- Zoom控制 -->
     <zoom-control v-if="state.isDone" ref="zoomControlRef" />
     <!-- 右键菜单 -->
     <right-click-menu />
-    <!-- 旋转缩放组件 -->
+    <!-- RotationZoomComponents -->
     <Moveable />
     <!-- 遮罩百分比进度条 -->
     <ProgressLoading :percent="state.downloadPercent" :text="state.downloadText" :cancelText="state.cancelText" :msg="state.downloadMsg" @cancel="cancel" @done="state.downloadPercent = 0" />
@@ -70,7 +70,7 @@ import { wGroupSetting } from '@/components/modules/widgets/wGroup/groupSetting'
 
 type TState = {
   isDone: boolean
-  downloadPercent: number // 下载进度
+  downloadPercent: number // Download进度
   downloadText: string
   downloadMsg: string
   cancelText: string
@@ -79,7 +79,7 @@ type TState = {
 // mixins: [shortcuts],
 const state = reactive<TState>({
   isDone: true,
-  downloadPercent: 0, // 下载进度
+  downloadPercent: 0, // Download进度
   downloadText: '',
   downloadMsg: '',
   cancelText: '',

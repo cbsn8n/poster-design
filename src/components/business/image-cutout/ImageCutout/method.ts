@@ -1,7 +1,7 @@
 /*
  * @Author: Jeremy Yu
  * @Date: 2024-03-03 19:00:00
- * @Description: 裁剪组件公共方法
+ * @Description: CropComponents公共方法
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @Date: 2024-03-03 19:00:00
  */
@@ -14,14 +14,14 @@ import { getImage } from '@/common/methods/getImgDetail'
 import _config from '@/config'
 import { Ref } from 'vue'
 
-/** 选择图片 */
+/** Select Image */
 export const selectImageFile = async (state: TImageCutoutState, raw: Ref<HTMLElement | null>, file: File, successCb?: (result: MediaSource, fileName: string) => void, uploadCb?: TCommonUploadCb) => {
   // if (file.size > 1024 * 1024 * 2) {
-  //   alert('上传图片超出限制')
+  //   alert('Upload Image超出限制')
   //   return false
   // }
   if (!raw.value) return
-  // 显示选择的图片
+  // ShowSelect的Image
   raw.value.addEventListener('load', () => {
     state.offsetWidth = (raw.value as HTMLElement).offsetWidth
   })
@@ -29,14 +29,14 @@ export const selectImageFile = async (state: TImageCutoutState, raw: Ref<HTMLEle
   // state.rawImage = 'https://pic.imgdb.cn/item/66be4c1ed9c307b7e9f00b16.jpg' // URL.createObjectURL(file)
   state.rawImage = 'https://s2.loli.net/2024/08/16/45aIdYbhgSefEoc.jpg'
 
-  // 返回抠图结果
+  // BackCutout结果
   // const result = await api.ai.upload(file, (up: number, dp: number) => {
   //   uploadCb && uploadCb(up, dp)
   //   if (dp) {
   //     state.progressText = dp === 100 ? '' : '导入中..'
   //     state.progress = dp
   //   } else {
-  //     state.progressText = up < 100 ? '上传中..' : '正在处理，请稍候..'
+  //     state.progressText = up < 100 ? 'Uploading..' : '正在处理，Please wait..'
   //     state.progress = up < 100 ? up : 0
   //   }
   // })

@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2021-08-27 15:16:07
- * @Description: 背景图
+ * @Description: Background图
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-08-12 09:49:35
 -->
@@ -16,8 +16,8 @@
           <el-image class="list__img" :src="item.thumb" fit="cover" lazy loading="lazy" @click.stop="selectItem(item)" @dragstart="dragStart($event, item)"></el-image>
         </imageTip>
       </div>
-      <div v-show="state.loading" class="loading"><i class="el-icon-loading"></i> 拼命加载中</div>
-      <div v-show="state.loadDone" class="loading">全部加载完毕</div>
+      <div v-show="state.loading" class="loading"><i class="el-icon-loading"></i> Loading...</div>
+      <div v-show="state.loadDone" class="loading">All loaded</div>
     </ul>
   </div>
 </template>
@@ -131,7 +131,7 @@ function setBGcolor(color: string) {
 }
 
 async function selectItem(item: TGetImageListResult) {
-  // this.$store.commit('setShowMoveable', false) // 清理掉上一次的选择
+  // this.$store.commit('setShowMoveable', false) // 清理掉上一次的Select
   pageStore.updatePageData({
     key: 'backgroundTransform',
     value: {},

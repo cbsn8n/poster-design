@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-06-20 15:01:39
- * @Description: 缩放画板
+ * @Description: ZoomBoard
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2025-03-24 14:47:12
 -->
@@ -38,7 +38,7 @@ import { findClosestNumber } from '@/utils/utils';
 
 const route = useRoute()
 
-// 组件大小控制器
+// ComponentsSize控制器
 let holder: number | undefined
 
 const hideControl = ref(false)
@@ -126,11 +126,11 @@ onMounted(async () => {
   } else {
     activezoomIndex.value = zoomList.value.length - 1
   }
-  // 添加滚轮监听
+  // 添加Scroll监听
   addMouseWheel('page-design', (isDown: boolean) => {
     mousewheelZoom(isDown)
   })
-  // 添加窗口大小监听
+  // 添加窗口Size监听
   window.addEventListener('resize', (event) => {
     changeScreen()
   })
@@ -154,7 +154,7 @@ function changeScreen() {
 }
 
 function screenChange() {
-  // 弹性尺寸即时修改
+  // 弹性Size即时修改
   if (activezoomIndex.value === zoomList.value.length - 1) {
     canvasStore.updateZoom(calcZoom())
     autoFixTop()
@@ -280,11 +280,11 @@ defineExpose({
 
 <style lang="less" scoped>
 @color-select: #1b1634;
-@color1: #ffffff; // 选项板背景
+@color1: #ffffff; // 选项板Background
 @color2: #ffffff;
-@color3: #666666; // 文字主颜色
+@color3: #666666; // Text主Color
 @color4: #c2c2c2; // 禁用
-@color5: rgba(0, 0, 0, 0.12); // 高亮选项背景
+@color5: rgba(0, 0, 0, 0.12); // H亮选项Background
 @z-border-color: #e6e6e6;
 
 #zoom-control {

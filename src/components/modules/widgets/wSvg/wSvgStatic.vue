@@ -1,5 +1,5 @@
 <!--
-  TODO: 重构
+  TODO: Refactor
 -->
 <template>
   <div
@@ -69,7 +69,7 @@ function loadSvg() {
         deepElement(items)
 
         function deepElement(els: Record<string, any>) {
-          // 判断是NodeList对象则继续递归，否则进入元素处理工厂
+          // 判断是NodeList对象则继续递归，否则进入Elements处理工厂
           if (els.item) {
             els.forEach((element: Record<string, any>) => {
               elementFactory(element)
@@ -83,7 +83,7 @@ function loadSvg() {
             elementFactory(els)
           }
         }
-        // 元素工厂: 遍历元素中是否存在可自定义的颜色属性
+        // Elements工厂: 遍历Elements中是否存在可自定义的Color属性
         function elementFactory(element: Record<string, any>) {
           const attrsColor: Record<string, any> = {}
           try {

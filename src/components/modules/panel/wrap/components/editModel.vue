@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-01-11 17:54:14
- * @Description: 模板编辑组件
+ * @Description: Templates编辑Components
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-02-11 00:07:36
 -->
@@ -38,7 +38,7 @@ export default defineComponent({
   setup(props, context) {
     async function action(name: string, value: any) {
       if (name === 'del') {
-        const isDel = await useConfirm('警告', '删除后不可恢复,是否继续', 'warning')
+        const isDel = await useConfirm('Warning', 'Cannot be recovered after deletion. Continue?', 'warning')
         if (!isDel) {
           return false
         }

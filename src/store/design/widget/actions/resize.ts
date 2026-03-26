@@ -31,7 +31,7 @@ export type TdResizePayload = {
   dirs: 'top' | 'left' | 'bottom' | 'right'
 }
 
-/** 设置 resize 操作的初始值 */
+/** Settings resize Action的初始值 */
 export function initDResize(store: TWidgetStore, payload: TInitResize) {
   const mouseXY = store.dMouseXY
   const widgetXY = store.dActiveWidgetXY
@@ -44,7 +44,7 @@ export function initDResize(store: TWidgetStore, payload: TInitResize) {
   resizeWH.height = payload.height
 }
 
-/** 更新组件宽高 */
+/** 更新ComponentsWH */
 export function dResize(store: TWidgetStore, { x, y, dirs }: TdResizePayload) {
   const canvasStore = useCanvasStore()
   const controlStore = useControlStore()
@@ -119,7 +119,7 @@ export function resize(store: TWidgetStore, size: TSize) {
   target.height = height
 }
 
-/** 自适应适配所有元素 */
+/** 自适应适配所有Elements */
 export function autoResizeAll(store: TWidgetStore, lastPageSize: TSize) {
   if (!lastPageSize) return
   const canvasStore = useCanvasStore()

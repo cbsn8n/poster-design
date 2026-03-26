@@ -47,7 +47,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
-// 数字输入组件
+// 数字输入Components
 // const NAME = 'number-input'
 
 type TProps = {

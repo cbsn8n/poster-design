@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-03-07 17:25:19
- * @Description: 图层组件
+ * @Description: LayersComponents
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-08-12 09:25:15
 -->
@@ -22,7 +22,7 @@
           <img v-if="element.imgUrl" class="widget-type widget-type__img" :src="element.imgUrl" />
           <img v-else-if="element.svgUrl" class="widget-type widget-type__img" :src="element.svgUrl" />
           <span v-else :class="['widget-type icon', `sd-${element.type}`, element.type]"></span>
-          <span :class="['widget-name', 'line-clamp-1', `${element.type}`]">{{ element.text || element.name }} {{ element.mask ? '(容器)' : '' }}</span>
+          <span :class="['widget-name', 'line-clamp-1', `${element.type}`]">{{ element.text || element.name }} {{ element.mask ? '(container)' : '' }}</span>
           <div class="widget-out" :data-type="element.type" :data-uuid="element.uuid">
             <i :class="['icon', element.lock ? 'sd-suoding' : 'sd-jiesuo']" @click.stop="lockLayer(element)" />
           </div>
@@ -84,7 +84,7 @@ export default defineComponent({
       let widgets = []
       let len = props.data.length
       const data = props.data.slice(0)
-      const childs = [] // 临时子组件
+      const childs = [] // 临时子Components
       for (let i = len - 1; i >= 0; --i) {
         let widget = JSON.parse(JSON.stringify(data[i]))
         if (widget.parent != -1) {
@@ -136,7 +136,7 @@ export default defineComponent({
       state.drag = false
       context.emit('change', widgets.value)
     }
-    // 锁定图层
+    // LockLayers
     const lockLayer = (item: any) => {
       widgetStore.updateWidgetData({
         uuid: item.uuid,

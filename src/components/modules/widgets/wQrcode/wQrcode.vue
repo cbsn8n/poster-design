@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-03-13 15:59:52
- * @Description: 二维码
+ * @Description: QR Code
  * @LastEditors: ShawnPhang <site: book.palxp.com>
  * @LastEditTime: 2023-06-29 15:54:10
 -->
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-// 图片组件
+// ImageComponents
 // const NAME = 'w-qrcode'
 
 

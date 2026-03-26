@@ -1,5 +1,5 @@
 <!--
-  TODO: 重构
+  TODO: Refactor
 -->
 <template>
   <div
@@ -41,7 +41,7 @@ type TState = {
   editBoxStyle: CSSProperties
   editBoxs: Record<string, any>
   editingKey: string
-  cropWidgetXY: Record<string, any> // 裁剪框移动作用
+  cropWidgetXY: Record<string, any> // Crop框移动作用
   attrRecord: Record<string, any> // 记录可更改的属性
   svgImg: Record<string, any> | null
 }
@@ -54,7 +54,7 @@ const state = reactive<TState>({
   },
   editBoxs: {},
   editingKey: '',
-  cropWidgetXY: {}, // 裁剪框移动作用
+  cropWidgetXY: {}, // Crop框移动作用
   attrRecord: {}, // 记录可更改的属性
   svgImg: null,
 })
@@ -165,7 +165,7 @@ function touchstart(e: MouseEvent) {
 }
 
 function touchend() {
-  // 取消鼠标移动事件
+  // Cancel鼠标移动事件
   document.removeEventListener('mousemove', handlemousemove, true)
   // document.removeEventListener('mouseup', () => {}, true)
 }
@@ -214,7 +214,7 @@ function loadSvg() {
         deepElement(items)
 
         function deepElement(els: Record<string, any>) {
-          // 判断是NodeList对象则继续递归，否则进入元素处理工厂
+          // 判断是NodeList对象则继续递归，否则进入Elements处理工厂
           if (els.item) {
             els.forEach((element: Record<string, any>) => {
               elementFactory(element)
@@ -228,7 +228,7 @@ function loadSvg() {
             elementFactory(els)
           }
         }
-        // 元素工厂: 遍历元素中是否存在可自定义的颜色属性
+        // Elements工厂: 遍历Elements中是否存在可自定义的Color属性
         function elementFactory(element: Record<string, any>) {
           const attrsColor: Record<string, any> = {}
           try {
@@ -287,7 +287,7 @@ function updateZoom() {
       y: y ?? 0,
       style: `transform-origin: center;transform: scale(${props.params.zoom})`,
     })
-    // 根据图片位置设置回editBox的位置
+    // 根据ImagePositionSettings回editBox的Position
     const { width, height } = props.params
     const { width: vWidth, height: vHeight } = viewBox
     const params = {

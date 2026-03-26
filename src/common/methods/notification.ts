@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2021-09-30 16:28:40
- * @Description: 弹出提示
+ * @Description: 弹出Notice
  * @LastEditors: ShawnPhang
  * @LastEditTime: 2022-01-20 18:19:20
  */

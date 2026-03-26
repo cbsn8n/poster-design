@@ -1,7 +1,7 @@
 <!--
  * @Author: Jeremy Yu
  * @Date: 2024-12-27 00:02:46
- * @Description: 图片生成HTML页面
+ * @Description: Image生成HTML页面
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-12-28 19:54:55
 -->
@@ -69,7 +69,7 @@ async function load() {
       const widgets = content.widgets
       const zoom = controlScale(content.page?.width)
  
-      // 移除背景图，作为独立事件
+      // 移除Background图，作为独立事件
       backgroundImage = content.page?.backgroundImage
       backgroundImage && delete content.page.backgroundImage
 
@@ -90,15 +90,15 @@ async function load() {
         if (item.fontClass && item.fontClass.value) {
           const loader = new FontFaceObserver(item.fontClass.value)
           fontData.push(item.fontClass)
-          fontLoaders.push(loader.load(null, 30000)) // 延长超时让检测不会丢失字体
-          // 按字体来收集所有文字
+          fontLoaders.push(loader.load(null, 30000)) // 延长超时让检测不会丢失Font
+          // 按Font来收集所有Text
           if (fontContent[item.fontClass.value]) {
             fontContent[item.fontClass.value] += item.text
           } else {
             fontContent[item.fontClass.value] = item.text
           }
         }
-        // 收集图片元素、svg元素
+        // 收集ImageElements、svgElements
         try {
           if (item.svgUrl && item.type === 'w-svg') {
             const cNodes: any = (window as any).document.getElementById(item.uuid).childNodes
@@ -113,7 +113,7 @@ async function load() {
           }
         } catch (e) {}
       })
-      // 背景图无法检测是否加载完毕，所以单独做判断
+      // Background图None法检测是否加载完毕，所以单独做判断
       if (backgroundImage) {
         const preloadBg = new Preload([backgroundImage])
         await preloadBg.imgs()
@@ -177,14 +177,14 @@ function handleResize() {
   overflow: scroll;
   offset: 0px;
   
-  scrollbar-width: none; /* Firefox 隐藏滚动条 */
+  scrollbar-width: none; /* Firefox Hide滚动条 */
   #main {
     overflow: hidden;
   }
 }
 
 #page-draw-html-wrap::-webkit-scrollbar {
-    display: none; /* WebKit 浏览器隐藏滚动条 */
+    display: none; /* WebKit 浏览器Hide滚动条 */
 }
 
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-04-03 19:15:21
- * @Description: 文件 
+ * @Description: File 
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-05 04:46:03
 -->
@@ -13,7 +13,7 @@
     <template #dropdown>
       <div v-show="type === 'shortkey'" class="help-list">
         <div @click="type = 'menu'" class="back">
-          <span class="icon-box"><i class="iconfont icon-right"></i></span> <b>快捷键</b>
+          <span class="icon-box"><i class="iconfont icon-right"></i></span> <b>Shortcuts</b>
         </div>
         <el-divider />
         <div v-for="(sc, si) in scKeyCodes" :key="'sc' + si" class="item">
@@ -22,9 +22,9 @@
         </div>
       </div>
       <el-dropdown-menu v-show="type === 'menu'">
-        <el-dropdown-item @click="type = 'shortkey'">快捷键</el-dropdown-item>
-        <el-dropdown-item @click="openTour">新手引导</el-dropdown-item>
-        <el-dropdown-item @click="openIssues"><div class="menu-item">反馈或建议</div></el-dropdown-item>
+        <el-dropdown-item @click="type = 'shortkey'">Shortcuts</el-dropdown-item>
+        <el-dropdown-item @click="openTour">Tour</el-dropdown-item>
+        <el-dropdown-item @click="openIssues"><div class="menu-item">Feedback</div></el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2021-08-09 11:44:29
- * @Description: 数值滑块组件
+ * @Description: 数值滑块Components
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2023-10-16 09:46:23
 -->

@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-04-06 15:17:03
- * @Description: 画布尺寸操作柄
+ * @Description: Canvas SizeAction柄
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-08 12:28:15
 -->

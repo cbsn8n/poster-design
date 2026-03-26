@@ -26,13 +26,13 @@
       <img v-else ref="targetRef" class="target" style="transform-origin: center" :src="params.imgUrl" />
     </div>
     <div v-if="isMask" class="drop__mask">
-      <div putIn="true" :style="{ fontSize: params.width / 12 + 'px' }" class="drop__btn">拖入</div>
+      <div putIn="true" :style="{ fontSize: params.width / 12 + 'px' }" class="drop__btn">Drop here</div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-// 图片组件
+// ImageComponents
 // const NAME = 'w-image'
 import { CSSProperties, StyleValue, computed, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 
@@ -179,7 +179,7 @@ function touchstart(e: MouseEvent) {
   document.addEventListener('mousemove', handlemousemove, true)
 }
 
-/** 取消鼠标移动事件 */
+/** Cancel鼠标移动事件 */
 function touchend() {
   document.removeEventListener('mousemove', handlemousemove, true)
   // const left = Number(this.editBoxStyle.left.replace('px', ''))
@@ -195,7 +195,7 @@ function handlemousemove(e?: MouseEvent) {
   e && e.stopPropagation()
   e && e.preventDefault()
   const { left, top } = move(e)
-  // TODO 触发位置刷新
+  // TODO 触发PositionRefresh
   state.holdPosition = { left, top }
   state.editBoxStyle.left = left + 'px'
   state.editBoxStyle.top = top + 'px'
@@ -213,7 +213,7 @@ function move(payload?: MouseEvent) {
     const dy = Number(payload.pageY) - dMouseXY.value.y
     let left = Number(widgetXY.x) + Math.floor((dx * 100) / dZoom.value)
     let top = Number(widgetXY.y) + Math.floor((dy * 100) / dZoom.value)
-    // TODO: 旋转后计算坐标
+    // TODO: Rotation后计算坐标
     // const rotate = Number(this.params.rotate.replace('deg', ''))
     // console.log(Math.sin(rotate), Math.cos(rotate))
     return { left, top }
@@ -306,7 +306,7 @@ function fixRotate() {
 }
 
 function lockOthers(isCrop) {
-  // 裁剪时锁定其他图层
+  // Crop时Lock其他Layers
   widgetStore.lockWidgets()
   if (!isCrop) return
   for (const widget of dWidgets.value) {

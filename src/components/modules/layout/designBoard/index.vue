@@ -82,12 +82,12 @@ import { TdWidgetData } from '@/store/design/widget'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
-// 页面设计组件
+// 页面设计Components
 type TProps = {
   pageDesignCanvasId: string
-  /** 以下参数仅用于图片渲染html */
+  /** 以下参数仅用于Image渲染html */
   padding?: number
-  /** 用于生成渲染图片 */
+  /** 用于生成渲染Image */
   renderDPage?: TPageState
   renderDWdigets?: TdWidgetData[]
   zoom?: number
@@ -211,8 +211,8 @@ async function drop(e: MouseEvent) {
   widgetStore.setDropOver('-1')
   // store.dispatch('setDropOver', '-1')
 
-  // store.commit('setShowMoveable', false) // 清理上一次的选择
-  controlStore.setShowMoveable(false) // 清理上一次的选择
+  // store.commit('setShowMoveable', false) // 清理上一次的Select
+  controlStore.setShowMoveable(false) // 清理上一次的Select
 
   let lost = eventTarget.className !== 'design-canvas' // className === 'design-canvas' , id: "page-design-canvas"
   // e.stopPropagation()
@@ -233,7 +233,7 @@ async function drop(e: MouseEvent) {
   if (!canvasEl) return
   const lostX = e.x - canvasEl.getBoundingClientRect().left
   const lostY = e.y - canvasEl.getBoundingClientRect().top
-  // 放置组合
+  // 放置Group
   if (type === 'group') {
     let parent: TParentData = {}
     const componentItem = await getComponentsData(item)
@@ -256,7 +256,7 @@ async function drop(e: MouseEvent) {
     // store.dispatch('addGroup', componentItem)
     // addGroup(item)
   }
-  // 设置坐标
+  // Settings坐标
   const half = {
     x: setting.width ? (setting.width * dZoom.value) / 100 / 2 : 0,
     y: setting.height ? (setting.height * dZoom.value) / 100 / 2 : 0,
@@ -265,15 +265,15 @@ async function drop(e: MouseEvent) {
   setting.left = (lost ? lostX - half.x : e.layerX - half.x) * (100 / dZoom.value)
   setting.top = (lost ? lostY - half.y : e.layerY - half.y) * (100 / dZoom.value)
   if (lost && type === 'image') {
-    // 如果不从画布加入，且不是图片类型，则判断是否加入到svg中
+    // 如果不从画布加入，且不是Image类型，则判断是否加入到svg中
     const target = await getTarget(eventTarget)
     if (!target) return
     const targetType = target.getAttribute('data-type')
     const uuid = target.getAttribute('data-uuid')
     if (targetType === 'w-mask') {
       // 容器
-      // store.commit('setShowMoveable', true) // 恢复选择
-      controlStore.setShowMoveable(true) // 恢复选择
+      // store.commit('setShowMoveable', true) // 恢复Select
+      controlStore.setShowMoveable(true) // 恢复Select
 
       const widget = dWidgets.value.find((item: { uuid: string }) => item.uuid === uuid)
       if (!widget) return
@@ -287,15 +287,15 @@ async function drop(e: MouseEvent) {
         const widget = dWidgets.value.find((item: { uuid: string }) => item.uuid == dropIn)
         if (!widget) return
         widget.imgUrl = item.value.url
-        // store.commit('setShowMoveable', true) // 恢复选择
-        controlStore.setShowMoveable(true) // 恢复选择
+        // store.commit('setShowMoveable', true) // 恢复Select
+        controlStore.setShowMoveable(true) // 恢复Select
       } else {
         widgetStore.addWidget(setting as Required<TPageState>)
         // store.dispatch('addWidget', setting) // 正常加入面板
       }
     }
   } else if (type === 'bg') {
-    console.log('背景图片放置')
+    console.log('BackgroundImage放置')
   } else if (type !== 'group') {
     widgetStore.addWidget(setting as Required<TPageState>)
     // store.dispatch('addWidget', setting) // 正常加入面板
@@ -323,7 +323,7 @@ async function handleMouseMove(e: MouseEvent) {
   const pImg = new PointImg(imageTarget)
   const { rgba } = pImg.getColorXY(e.offsetX, e.offsetY)
   if (rgba && rgba === 'rgba(0,0,0,0)') {
-    console.log('解析点位颜色: ', rgba)
+    console.log('解析点位Color: ', rgba)
     let target = await getTarget(imageTarget)
     if (!target) return
     target.style.pointerEvents = 'none'
@@ -353,7 +353,7 @@ async function handleSelection(e: MouseEvent) {
       }
     }
 
-    // 设置选中元素
+    // Settings选中Elements
     // this.$store.commit('setMoveable', false)
     if (showRotatable.value !== false) {
       widgetStore.selectWidget({
@@ -368,7 +368,7 @@ async function handleSelection(e: MouseEvent) {
       moveInit.methods.initmovement(e) // 参见 mixins
     }
   } else {
-    // 取消选中元素
+    // DeselectElements
     widgetStore.selectWidget({
       uuid: '-1',
     })

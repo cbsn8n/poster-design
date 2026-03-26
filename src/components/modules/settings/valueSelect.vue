@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2021-08-02 19:10:06
- * @Description: 选项选择（未拆分字体选择器）
+ * @Description: 选项Select（未拆分FontSelect器）
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-03-15 17:34:00
 -->
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-// 下拉选择框
+// 下拉Select框
 const NAME = 'value-input'
 import { ElTabPane, ElTabs } from 'element-plus'
 import { computed, onMounted, reactive, ref, watch } from 'vue';
@@ -105,7 +105,7 @@ const state = reactive<TState>({
   width: '0',
   innerValue: '',
   innerPreview: '',
-  activeTab: '中文',
+  activeTab: 'Chinese',
 })
 const selectRef = ref<HTMLElement | null>(null)
 

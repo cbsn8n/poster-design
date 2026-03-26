@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-04-08 10:31:34
- * @Description: 标尺
+ * @Description: Ruler
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-10 23:07:44
 -->

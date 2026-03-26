@@ -16,7 +16,7 @@ export type TInidDMovePayload = {
   originY: number
 }
 
-/** 设置 mousemove 操作的初始值 */
+/** Settings mousemove Action的初始值 */
 export function initDMove(store: TWidgetStore, payload: TInidDMovePayload) {
   store.dMouseXY.x = payload.startX
   store.dMouseXY.y = payload.startY
@@ -30,7 +30,7 @@ export type TMovePayload = {
   y: number
 }
 
-/** 移动组件 */
+/** 移动Components */
 export function dMove(store: TWidgetStore, payload: TMovePayload) {
   const page = useCanvasStore().dPage
   const canvasStore = useCanvasStore()
@@ -114,7 +114,7 @@ export function updateHoverUuid(store: TWidgetStore, uuid: string) {
 }
 
 /**
- * 设置拖拽时在哪个图层
+ * Settings拖拽时在哪个Layers
  */
 export function setDropOver(store: TWidgetStore, uuid: string) {
   store.dDropOverUuid = uuid

@@ -42,7 +42,7 @@ export type IGetTempListData = {
 }
 type IGetTempListResult = TPageRequestResult<IGetTempListData[]>
 
-// 获取模板列表
+// 获取Templates列表
 export const getTempList = (params: IGetTempListParam) => fetch<IGetTempListResult>('design/list', params, 'get')
 
 export type TGetTempDetail = {
@@ -55,11 +55,11 @@ export type TTempDetail = {
   category: number
   /** 封面 */
   cover: string
-  /** 创建时间 */
+  /** Create时间 */
   created_time: string
   /** Template内容 */
   data: string
-  /** 高度 */
+  /** H度 */
   height: number
   id: number
   /** 来源 */
@@ -88,7 +88,7 @@ type TgetCategoriesResult = TCommResResult<TGetCategoriesData>
 export const getCategories = (params: TGetCategoriesParams) => fetch<TgetCategoriesResult[]>('design/cate', params, 'get')
 
 
-// 保存模板
+// SaveTemplates
 export const saveTemp = (params: Type.Object = {}) => fetch('design/edit', params, 'post')
 // export const delTemp = (params: Type.Object = {}) => fetch('/api/template/temp_del', params)
 
@@ -100,7 +100,7 @@ type TGetCompListParam = {
   cate?: number | string
 }
 
-/** 获取组件返回类型 */
+/** 获取ComponentsBack类型 */
 export type TGetCompListResult = {
   cover: string
   height: number
@@ -114,7 +114,7 @@ export type TGetCompListResult = {
 
 type getCompListReturn = TPageRequestResult<TGetCompListResult[]>
 
-// 组件相关接口
+// Components相关接口
 export const getCompList = (params: TGetCompListParam) => fetch<getCompListReturn>('design/list', params, 'get')
 
 type TRemoveComp = {
@@ -140,10 +140,10 @@ export type TSaveWorksResult = {
   msg: string
 }
 
-// 保存作品
+// Save作品
 export const saveWorks = (params: TSaveWorksParams) => fetch<TSaveWorksResult>('design/save', params, 'post')
 
-// 保存个人模板
+// Save个人Templates
 export const saveMyTemp = (params: Type.Object = {}) => fetch('design/user/temp', params, 'post')
 
 // 获取作品

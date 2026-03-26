@@ -60,7 +60,7 @@ export const isSupportFontFamily = (f: string) => {
   return g(h).join('') !== g(f).join('')
 }
 
-// 生成字体 style
+// 生成Font style
 export function generateFontStyle(name: string, url: string): HTMLStyleElement {
   const el = document.createElement('style')
   el.id = name
@@ -69,7 +69,7 @@ export function generateFontStyle(name: string, url: string): HTMLStyleElement {
   return el
 }
 
-// 找到使用到的所有字体
+// 找到使用到的所有Font
 // export function filterSkyFonts() {
 //   const fonts: string[] = []
 //   // const textClouds = sky.state.clouds.filter(
@@ -78,11 +78,11 @@ export function generateFontStyle(name: string, url: string): HTMLStyleElement {
 //   const textClouds: any = []
 
 //   ;(textClouds as unknown as CloudText[]).forEach((cloud) => {
-//     // 找到文字组件字体
+//     // 找到TextComponentsFont
 //     if (cloud.fontFamily && !fonts.includes(cloud.fontFamily)) {
 //       fonts.push(cloud.fontFamily)
 //     }
-//     // 找到文字组件子级字体
+//     // 找到TextComponents子级Font
 //     cloud.texts.forEach((text) => {
 //       if (text.fontFamily && !fonts.includes(text.fontFamily)) {
 //         fonts.push(text.fontFamily)

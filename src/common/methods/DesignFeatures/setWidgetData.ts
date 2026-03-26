@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-02-22 15:06:14
- * @Description: 设置元素时根据类型处理
+ * @Description: SettingsElements时根据类型处理
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-03-22 16:00:17
  */
@@ -18,7 +18,7 @@ export default async function(type: string, item: TCommonItemData, data: Record<
   let setting = data
   if (type === 'text') {
     !item.fontFamily && !item.color ? (setting = JSON.parse(JSON.stringify(wTextSetting))) : (setting = item)
-    !setting.text ? (setting.text = '双击编辑文字') : (setting.text = decodeURIComponent(setting.text)) // item.text
+    !setting.text ? (setting.text = 'Double-click to edit') : (setting.text = decodeURIComponent(setting.text)) // item.text
     setting.fontSize = item.fontSize
     setting.width = item.width || item.fontSize * setting.text.length
     setting.fontWeight = item.fontWeight

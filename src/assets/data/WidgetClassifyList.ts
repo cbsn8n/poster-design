@@ -18,44 +18,44 @@ export type TWidgetClassifyData = {
 
 export default [
   {
-    name: '模板',
+    name: 'Templates',
     icon: 'icon-moban',
     show: false,
     component: 'temp-list-wrap',
   },
   {
-    name: '素材',
+    name: 'Assets',
     icon: 'icon-sucai',
     show: false,
     component: 'graph-list-wrap',
   },
   {
-    name: '文字',
+    name: 'Text',
     icon: 'icon-wenzi',
     show: false,
     style: { fontWeight: 600 },
     component: 'text-list-wrap',
   },
   {
-    name: '照片',
+    name: 'Photos',
     icon: 'icon-gallery',
     show: false,
     component: 'photo-list-wrap',
   },
   // {
-  //   name: '背景',
+  //   name: 'Background',
   //   icon: 'icon-beijing',
   //   show: false,
   //   component: 'bg-img-list-wrap',
   // },
   {
-    name: '工具箱',
+    name: 'Toolbox',
     icon: 'icon-zujian01',
     show: false,
     component: 'tools-list-wrap',
   },
   {
-    name: '我的',
+    name: 'My',
     icon: 'icon-shangchuan',
     show: false,
     component: 'user-wrap',

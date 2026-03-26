@@ -135,7 +135,7 @@ function toCloudImageConfig(data: any, layer: any) {
     src = layer?.image?.pixelData
   } catch (error: any) {
     if (error.message.includes('layer mask')) {
-      console.warn('图层蒙版不支持，尝试降级处理或简化PSD文件(逐步删除图层)定位问题元素')
+      console.warn('Layers蒙版不支持，尝试降级处理或简化PSDFile(逐步DeleteLayers)定位问题Elements')
     } else console.error(error)
   }
   return {
@@ -180,7 +180,7 @@ export async function convertPSD2Page(psd: any) {
     image: '',
   }
   const [bgData] = children.slice(-1)
-  if (['Background', 'background', '背景'].includes(bgData.name)) {
+  if (['Background', 'background', 'Background'].includes(bgData.name)) {
     const layer = findLayer(bgData)
     const image = toCloudImageConfig(bgData, layer)
     background.image = image.src

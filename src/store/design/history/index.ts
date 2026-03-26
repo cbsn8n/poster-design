@@ -23,15 +23,15 @@ export type THsitoryStack = {
 }
 
 type THistoryState = {
-  /** 记录历史操作（保存整个画布的json数据） */
+  /** 记录历史Action（Save整个画布的json数据） */
   dHistory: string[]
-  /** 记录历史操作对应的page */
+  /** 记录历史Action对应的page */
   dPageHistory: string[]
   /** 记录差分补丁 */
   dHistoryStack: THsitoryStack
   /** 记录指针等数据 */
   dHistoryParams: THistoryParamData
-  /** 记录历史选择的颜色 */
+  /** 记录历史Select的Color */
   dColorHistory: string[]
 }
 
@@ -39,9 +39,9 @@ type THistoryAction = {
   /** 写入历史记录 */
   changeHistory: (patches: any) => void
   /**
-   * 操作历史记录
-   * action为undo表示撤销
-   * action为redo表示重做
+   * Action历史记录
+   * action为undo表示Undo
+   * action为redo表示Redo
    */
   handleHistory: (action: 'undo' | 'redo') => void
   pushColorToHistory: (color: string) => void
@@ -68,7 +68,7 @@ const HistoryStore = defineStore<'historyStore', THistoryState, {}, THistoryActi
   actions: {
     changeHistory({ patches, inversePatches }) {
       const pointer = ++this.dHistoryParams.stackPointer
-      // 如若之前撤销过，当新增记录时，后面的记录就清空了
+      // 如若之前Undo过，当新增记录时，后面的记录就清空了
       this.dHistoryStack.changes.length = pointer
       this.dHistoryStack.inverseChanges.length = pointer
       this.dHistoryStack.changes[pointer] = patches
@@ -76,7 +76,7 @@ const HistoryStore = defineStore<'historyStore', THistoryState, {}, THistoryActi
     },
     handleHistory(action) {
       handleHistory(this, action)
-      // TODO: 操作后如果当前选中元素还在，则应当保留选择框
+      // TODO: Action后如果当前选中Elements还在，则应当保留Select框
       // widgetStore.setdActiveElement(pageStore.dPage)
     },
     pushColorToHistory(color) {

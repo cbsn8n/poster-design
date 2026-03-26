@@ -9,7 +9,7 @@
 import { Store, defineStore } from "pinia"
 
 type TUserStoreState = {
-  /** 登录状态 */
+  /** Login状态 */
   online: boolean
   /** 储存用户信息 */
   user: {
@@ -17,14 +17,14 @@ type TUserStoreState = {
   }
   /**是否为管理员模式 */
   manager: string
-  /** 管理员是否正在编辑模板 */
+  /** 管理员是否正在编辑Templates */
   tempEditing: boolean
 }
 
 type TUserAction = {
-  /** 修改登录状态 */
+  /** 修改Login状态 */
   changeOnline: (state: boolean) => void
-  /** 修改登录用户 */
+  /** 修改Login用户 */
   changeUser: (userName: string) => void
   managerEdit: (status: boolean) => void
 }
@@ -32,12 +32,12 @@ type TUserAction = {
 /** User全局状态管理 */
 const useUserStore = defineStore<'userStore', TUserStoreState, {}, TUserAction>('userStore', {
   state: () => ({
-    online: true, // 登录状态，
+    online: true, // Login状态，
     user: {
       name: localStorage.getItem('username'),
     }, // 储存用户信息
     manager: '', // 是否为管理员模式
-    tempEditing: false, // 管理员是否正在编辑模板
+    tempEditing: false, // 管理员是否正在编辑Templates
   }),
   actions: {
     changeOnline(status: boolean) {

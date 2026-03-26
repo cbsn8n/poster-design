@@ -28,7 +28,7 @@ const { dZoom } = storeToRefs(canvasStore)
 
 async function createCover(cb: any) {
   const nowZoom = dZoom.value
-  // 取消选中元素
+  // DeselectElements
   widgetStore.selectWidget({
     uuid: '-1',
   })
@@ -40,7 +40,7 @@ async function createCover(cb: any) {
   // store.dispatch('updateZoom', 100)
 
   const opts = {
-    useCORS: true, // 跨域图片
+    useCORS: true, // 跨域Image
     scale: 0.2,
   }
   setTimeout(async () => {
@@ -67,10 +67,10 @@ async function createCover(cb: any) {
 }
 
 async function createPoster() {
-  await checkFonts() // 等待字体加载完成
+  await checkFonts() // 等待Font加载Done
   const fonts = document.fonts
   const opts = {
-    backgroundColor: null, // 关闭背景以支持透明图片生成
+    backgroundColor: null, // CloseBackground以支持透明Image生成
     useCORS: true,
     scale: 100 / dZoom.value, // * window.devicePixelRatio
     onclone: (document: any) => fonts.forEach((font) => document.fonts.add(font)),
@@ -90,14 +90,14 @@ async function createPoster() {
   })
 }
 
-// 检查字体是否加载完成
+// 检查Font是否加载Done
 async function checkFonts() {
   const widgets = widgetStore.getWidgets()
   const fontLoaders: Promise<void>[] = []
   widgets.forEach((item: any) => {
     if (item.fontClass && item.fontClass.value) {
       const loader = new FontFaceObserver(item.fontClass.value)
-      fontLoaders.push(loader.load(null, 120000)) // 延长超时让检测不会丢失字体
+      fontLoaders.push(loader.load(null, 120000)) // 延长超时让检测不会丢失Font
     }
   })
   await Promise.all(fontLoaders)

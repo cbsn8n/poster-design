@@ -21,9 +21,9 @@ export default function(el: HTMLElement | string, cb: Function, altLimit: boolea
     const ev = e || window.event
     const down = ev.wheelDelta ? ev.wheelDelta < 0 : ev.detail > 0
     // if (down) {
-    //   console.log('鼠标滚轮向下---------')
+    //   console.log('鼠标Scroll向下---------')
     // } else {
-    //   console.log('鼠标滚轮向上++++++++++')
+    //   console.log('鼠标Scroll向上++++++++++')
     // }
     if ((altLimit && controlStore.dAltDown) || !altLimit) {
       ev.preventDefault()

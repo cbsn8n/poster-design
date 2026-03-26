@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-10-08 10:07:10
- * @Description: 图像抠图
+ * @Description: 图像Cutout
  * @LastEditors: ShawnPhang <site: book.palxp.com>
  * @LastEditTime: 2023-07-12 00:05:48
  */

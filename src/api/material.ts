@@ -9,7 +9,7 @@ import fetch from '@/utils/axios'
 import _config from '@/config'
 import { IGetTempListData } from './home'
 
-// 获取素材分类：
+// 获取Assets分类：
 export const getKinds = (params: Type.Object = {}) => fetch('design/cate', params)
 
 type TGetListParam = {
@@ -39,14 +39,14 @@ export type TGetListData = {
 
 export type TGetListResult = TPageRequestResult<TGetListData[]>
 
-// 获取素材列表：
+// 获取Assets列表：
 export const getList = (params: TGetListParam) => fetch<TGetListResult>('design/material', params)
 
 export type TGetFontParam = {
   pageSize?: number
 }
 
-/** 字体item数据 */
+/** Fontitem数据 */
 export type TGetFontItemData = {
   id: number
   alias: string
@@ -57,7 +57,7 @@ export type TGetFontItemData = {
   lang: string
 }
 
-// 获取字体
+// 获取Font
 export const getFonts = (params: TGetFontParam = {}) => fetch<TPageRequestResult<TGetFontItemData[]>>('design/fonts', params)
 
 type TGetFontSubParam = {
@@ -97,7 +97,7 @@ type TMyPhotoParams = {
   pageSize?: number
 }
 
-/** 获取我的资源管理返回 */
+/** 获取MyResourcesBack */
 export type TMyPhotoResult = {
   created_time: string
   height: number
@@ -107,7 +107,7 @@ export type TMyPhotoResult = {
   width: number
 } & IGetTempListData
 
-// 我的上传列表
+// My上传列表
 export const getMyPhoto = (params: TMyPhotoParams) => fetch<TPageRequestResult<TMyPhotoResult[]>>('design/user/image', params)
 
 type TDeleteMyPhotoParams = {
@@ -129,7 +129,7 @@ type TAddMyPhotoParam = {
   url: string
 }
 
-// 添加图片
+// 添加Image
 export const addMyPhoto = (params: TAddMyPhotoParam) => fetch<void>('design/user/add_image', params)
 
 // 上传接口

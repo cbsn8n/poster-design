@@ -3,7 +3,7 @@
     <div class="page-design-index-wrap">
       <design-board class="page-design-wrap fixed-canvas" pageDesignCanvasId="page-design-canvas"></design-board>
     </div>
-    <!-- 缩放控制 -->
+    <!-- Zoom控制 -->
     <zoom-control />
   </div>
 </template>
@@ -67,7 +67,7 @@ async function load() {
       widgetStore.addGroup(content)
     } else {
       pageStore.setDPage(content.page)
-      // 移除背景图，作为独立事件
+      // 移除Background图，作为独立事件
       backgroundImage = content.page?.backgroundImage
       backgroundImage && delete content.page.backgroundImage
       pageStore.setDPage(content.page)
@@ -89,15 +89,15 @@ async function load() {
       if (item.fontClass && item.fontClass.value) {
         const loader = new FontFaceObserver(item.fontClass.value)
         fontData.push(item.fontClass)
-        fontLoaders.push(loader.load(null, 30000)) // 延长超时让检测不会丢失字体
-        // 按字体来收集所有文字
+        fontLoaders.push(loader.load(null, 30000)) // 延长超时让检测不会丢失Font
+        // 按Font来收集所有Text
         if (fontContent[item.fontClass.value]) {
           fontContent[item.fontClass.value] += item.text
         } else {
           fontContent[item.fontClass.value] = item.text
         }
       }
-      // 收集图片元素、svg元素
+      // 收集ImageElements、svgElements
       try {
         if (item.svgUrl && item.type === 'w-svg') {
           const cNodes: any = (window as any).document.getElementById(item.uuid).childNodes
@@ -112,7 +112,7 @@ async function load() {
         }
       } catch (e) {}
     })
-    // 背景图无法检测是否加载完毕，所以单独做判断
+    // Background图None法检测是否加载完毕，所以单独做判断
     if (backgroundImage) {
       const preloadBg = new Preload([backgroundImage])
       await preloadBg.imgs()

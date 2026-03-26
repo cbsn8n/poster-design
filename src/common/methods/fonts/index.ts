@@ -1,16 +1,16 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-01-08 09:43:37
- * @Description: 字体处理
+ * @Description: Font处理
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-08-12 10:33:36
  */
 // import { isSupportFontFamily, blob2Base64 } from './utils'
 import { TGetFontItemData, getFonts } from '@/api/material'
 
-const nowVersion = '2' // 当前字体文件版本更新，将刷新前端缓存
+const nowVersion = '2' // 当前FontFile版本更新，将Refresh前端缓存
 
-/** 字体item类型 */
+/** Fontitem类型 */
 export type TFontItemData = { url: string } & Omit<TGetFontItemData, 'woff'>
 
 const fontList: TFontItemData[] = []
@@ -32,7 +32,7 @@ export const useFontStore = {
         list: [
           {
             id: 543,
-            alias: '站酷快乐体',
+            alias: 'ZCOOL Happy',
             preview: '',
             ttf: null,
             woff: 'https://lib.baomitu.com/fonts/zcool-kuaile/zcool-kuaile-regular.woff2',
@@ -122,7 +122,7 @@ export const useFontStore = {
 //       ;(document.fonts as FontFaceSet).add(f)
 
 //       const b64 = await blob2Base64(blob)
-//       // 使用 base64 是为了方便将 DOM 生成图片
+//       // 使用 base64 是为了方便将 DOM Generate Image
 //       this.download[name] = b64
 //       // document.head.appendChild(generateFontStyle(name, b64));
 //     },

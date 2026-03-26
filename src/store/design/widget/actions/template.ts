@@ -12,7 +12,7 @@ import { TWidgetStore, TdWidgetData } from '..'
 import { useCanvasStore, useWidgetStore } from '@/store'
 const nanoid = customAlphabet('1234567890abcdef', 12)
 
-// TODO: 选择模板
+// TODO: SelectTemplates
 export function setTemplate(store: TWidgetStore, allWidgets: TdWidgetData[]) {
   // const historyStore = useHistoryStore()
   const canvasStore = useCanvasStore()

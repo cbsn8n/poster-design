@@ -8,7 +8,7 @@
 
 // window.addEventListener('paste', (e: any) => {
 //   const clipdata = e.clipboardData || (window as any).clipboardData
-//   console.log('主动粘贴', clipdata.getData('text/plain'))
+//   console.log('主动Paste', clipdata.getData('text/plain'))
 // })
 
 // import store from '@/store'
@@ -47,7 +47,7 @@ export default (pasteImageFile?: any) => {
             uploadParseImage(file, { controlStore, pageStore, widgetStore })
             break
           } else if (item.types.toString().indexOf('text') !== -1) {
-            controlStore.setShowMoveable(false) // 清理掉上一次的选择
+            controlStore.setShowMoveable(false) // 清理掉上一次的Select
 
             const setting = JSON.parse(JSON.stringify(wTextSetting))
             setting.text = await navigator.clipboard.readText()
@@ -58,13 +58,13 @@ export default (pasteImageFile?: any) => {
         }
       })
       .catch((error) => {
-        // 剪贴板内容为空, 直接返回
+        // 剪贴板内容为空, 直接Back
         resolve()
       })
   })
 }
 async function uploadParseImage(file: File, { controlStore, pageStore, widgetStore }: any) {
-  // 上传图片
+  // Upload Image
   const resp = await api.material.upload({ file }, (up: any, dp: any) => {
     console.log(up, dp)
   })
@@ -72,10 +72,10 @@ async function uploadParseImage(file: File, { controlStore, pageStore, widgetSto
   try {
     await api.material.addMyPhoto({ ...resp, width, height })
   } catch (error) {}
-  // 刷新用户列表
+  // Refresh用户列表
   eventBus.emit('refreshUserImages')
-  // 添加图片到画布中
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择
+  // 添加Image到画布中
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select
   const setting = JSON.parse(JSON.stringify(wImageSetting))
   setting.width = width
   setting.height = height
@@ -84,13 +84,13 @@ async function uploadParseImage(file: File, { controlStore, pageStore, widgetSto
   setting.left = pW / 2 - width / 2
   setting.top = pH / 2 - height / 2
   widgetStore.addWidget(setting)
-  // 清空剪贴板，防止多次上传图片
+  // 清空剪贴板，防止多次Upload Image
   navigator.clipboard.write([
     new ClipboardItem({
       'text/plain': new Blob([''], { type: 'text/plain' }),
     }),
   ])
-  // 最后尝试复制，将图片替换为图片组件
+  // 最后尝试Copy，将ImageReplace为ImageComponents
   setTimeout(() => {
     widgetStore.copyWidget()
   }, 100)

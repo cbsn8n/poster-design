@@ -15,7 +15,7 @@ const move = {
       const widgetStore = useWidgetStore()
       const target = widgetStore.dActiveElement
       if (!target) return
-      // 设置移动状态初始值
+      // Settings移动状态初始值
       widgetStore.initDMove({
         startX: e.pageX,
         startY: e.pageY,
@@ -26,7 +26,7 @@ const move = {
       // 绑定鼠标移动事件
       document.addEventListener('mousemove', this.handlemousemove, true)
 
-      // 取消鼠标移动事件
+      // Cancel鼠标移动事件
       document.addEventListener('mouseup', this.handlemouseup, true)
     },
 
@@ -56,8 +56,8 @@ const moveInit = {
       const controlStore = useControlStore()
       const widgetStore = useWidgetStore()
       if (!controlStore.dAltDown) {
-        // 设置mouseevent给moveable初始
-        // 在组合操作时排除
+        // Settingsmouseevent给moveable初始
+        // 在GroupAction时排除
         widgetStore.setMouseEvent(e)
       }
 

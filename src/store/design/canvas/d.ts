@@ -6,9 +6,9 @@
  * @LastEditTime: 2024-09-25 00:39:00
  */
 export type TScreeData = {
-  /** 记录编辑界面的宽度 */
+  /** 记录编辑界面的W度 */
   width: number
-  /** 记录编辑界面的高度 */
+  /** 记录编辑界面的H度 */
   height: number
 }
 
@@ -18,32 +18,32 @@ export type TGuidelinesData = {
 }
 
 export type TCanvasState = {
-  /** 画布缩放百分比 */
+  /** 画布Zoom百分比 */
   dZoom: number
   /** 画布默认预留边距 */
   dPresetPadding: number,
-  /** 画布底部工具栏高度 */
+  /** 画布底部工具栏H度 */
   dBottomHeight: number,
   /** 画布垂直居中修正值 */
   dPaddingTop: number
   /** 编辑界面 */
   dScreen: TScreeData
-  /** 标尺辅助线 */
+  /** Ruler辅助线 */
   guidelines: TGuidelinesData
   /** 页面数据 */
   dPage: TPageState
-  /** 当前页面下标 */
+  /** Current Page下标 */
   dCurrentPage: number
 }
 
 export type TStoreAction = {
-  /** 更新画布缩放百分比 */
+  /** 更新画布Zoom百分比 */
   updateZoom: (zoom: number) => void
   /** 更新画布垂直居中修正值 */
   updatePaddingTop: (num: number) => void
-  /** 更新编辑界面的宽高 */
+  /** 更新编辑界面的WH */
   updateScreen: (data: TScreeData) => void
-  /** 修改标尺线 */
+  /** 修改Ruler线 */
   updateGuidelines: (lines: TGuidelinesData) => void
   /** 强制重绘画布 */
   reChangeCanvas: () => void
@@ -54,13 +54,13 @@ export type TStoreAction = {
     // pushHistory?: boolean
   }): void
   getDPage(data: TPageState): TPageState
-  /** 设置dPage */
+  /** SettingsdPage */
   setDPage(data: TPageState): void
   /** 更新 Page（从layouts获取）*/
   updateDPage(): void
-  /** 设置底部工具栏高度 */
+  /** Settings底部工具栏H度 */
   setBottomHeight(h: number): void
-  /** 更新当前页面下标 */
+  /** 更新Current Page下标 */
   setDCurrentPage(n: number): void
 }
 
@@ -70,23 +70,23 @@ export type TPageState = {
   uuid: string
   left: number
   top: number
-  /** 画布宽度 */
+  /** 画布W度 */
   width: number
-  /** 画布高度 */
+  /** 画布H度 */
   height: number
-  /** 画布背景颜色 */
+  /** 画布BackgroundColor */
   backgroundColor: string
-  /** 画布背景颜色(兼容渐变色) */
+  /** 画布BackgroundColor(兼容Gradient) */
   backgroundGradient: string,
-  /** 画布背景图片 */
+  /** 画布BackgroundImage */
   backgroundImage: string
   backgroundTransform: {
     x?: number
     y?: number
   }
-  /** 透明度 */
+  /** Opacity */
   opacity: number
-  /** 强制刷新用 */
+  /** 强制Refresh用 */
   tag: number
 }
 

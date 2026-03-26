@@ -8,7 +8,7 @@
 import { CornerDotType, Options } from "qr-code-styling"
 import { TQrcodeProps } from "./index.vue"
 
-/** 生成二维码数据 */
+/** 生成QR Code数据 */
 export function generateOption(props: TQrcodeProps): Options {
   return {
     width: props.width,

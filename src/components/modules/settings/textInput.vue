@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-// 文本输入组件
+// Text输入Components
 // const NAME = 'text-input'
 
 type TProps = {

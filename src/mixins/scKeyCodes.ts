@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2024-04-04 00:36:13
- * @Description: 快捷键支持列表
+ * @Description: Shortcuts支持列表
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-11 15:05:41
  */
@@ -12,59 +12,59 @@ function isMacOS() {
 
 export default [
   {
-    feat: `拖拽画布`,
-    info: `空格 + 鼠标拖拽`,
+    feat: `Drag Canvas`,
+    info: `Space + Mouse Drag`,
   },
   {
-    feat: `画布缩小`,
-    info: `${ctrlKey} - / ${ctrlKey} + 滚轮`,
+    feat: `Zoom Out`,
+    info: `${ctrlKey} - / ${ctrlKey} + Scroll`,
   },
   {
-    feat: `画布放大`,
-    info: `${ctrlKey} + / ${ctrlKey} + 滚轮`,
+    feat: `Zoom In`,
+    info: `${ctrlKey} + / ${ctrlKey} + Scroll`,
   },
   {
-    feat: `保存`,
+    feat: `Save`,
     info: `${ctrlKey} + S`,
   },
   {
-    feat: `撤销`,
+    feat: `Undo`,
     info: `${ctrlKey} + Z`,
   },
   {
-    feat: `重做`,
+    feat: `Redo`,
     info: `${ctrlKey} + Shift + Z`,
   },
   {
-    feat: `复制`,
+    feat: `Copy`,
     info: `${ctrlKey} + C`,
   },
   {
-    feat: `粘贴`,
+    feat: `Paste`,
     info: `${ctrlKey} + V`,
   },
   {
-    feat: `删除`,
+    feat: `Delete`,
     info: `Delete / Backspace`,
   },
   {
-    feat: `元素移动`,
+    feat: `Move Element`,
     info: `← ↑ → ↓`,
   },
   {
-    feat: `快速移动`,
+    feat: `Fast Move`,
     info: `Shift + ← ↑ → ↓`,
   },
   {
-    feat: `多选`,
-    info: `${ctrlKey} / Shift + 点选`,
+    feat: `Multi-select`,
+    info: `${ctrlKey} / Shift + Click`,
   },
   {
-    feat: `成组`,
+    feat: `Group`,
     info: `${ctrlKey} + G`,
   },
   {
-    feat: `取消选中`,
+    feat: `Deselect`,
     info: `ESC`,
   },
 ]

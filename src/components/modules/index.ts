@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2021-07-13 22:51:29
- * @Description: Widgets、panel中所有组件将会自动全局引入
+ * @Description: Widgets、panel中所有Components将会自动全局引入
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-09 22:31:08
  */
@@ -11,12 +11,12 @@ function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-// 排除要全局引入的组件,可以是目录名也可以是文件名
+// 排除要全局引入的Components,可以是目录名也可以是File名
 const exclude = ['settings', 'layout']
 
 const regex = RegExp('.*^(?!.*?(' + exclude.join('|') + ')).*\\.vue$')
 
-// const requireComponent = require.context('.', true, /\.vue$/) // 找到components文件夹下以.vue命名的文件
+// const requireComponent = require.context('.', true, /\.vue$/) // 找到componentsFile夹下以.vue命名的File
 
 const requireComponent = import.meta.glob('./**/*.vue', { eager: true })
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-04-12 17:47:19
- * @Description: 静态组件
+ * @Description: 静态Components
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-16 16:25:35
 -->

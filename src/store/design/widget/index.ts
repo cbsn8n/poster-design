@@ -45,9 +45,9 @@ export type TdLayout = {
 
 export type TWidgetState = {
   dActiveWidgetXY: {
-    /** 选中组件的横向初始值 */
+    /** 选中Components的横向初始值 */
     x: number,
-    /** 选中组件的纵向初始值 */
+    /** 选中Components的纵向初始值 */
     y: number
   }
   dMouseXY: {
@@ -56,26 +56,26 @@ export type TWidgetState = {
     /** 鼠标按下时的纵坐标 */
     y: number
   },
-  /** 初始化调整大小时组件的宽高 */
+  /** 初始化调整Size时Components的WH */
   dResizeWH: {
     width: number
     height: number
   },
-  /** 选中的组件或页面 */
+  /** 选中的Components或页面 */
   dActiveElement: TdWidgetData | null
-  /** 鼠标在这个图层上 */
+  /** 鼠标在这个Layers上 */
   dHoverUuid: string
-  /** 拖动时放在哪个图层上 */
+  /** 拖动时放在哪个Layers上 */
   dDropOverUuid: string
-  /** 已使用的组件 */
+  /** 已使用的Components */
   dWidgets: TdWidgetData[]
-  /** 所有图层数据与页面数据 */
+  /** 所有Layers数据与页面数据 */
   dLayouts: TdLayout[]
-  /** 记录多选的组件 */
+  /** 记录Multi-select的Components */
   dSelectWidgets: TdWidgetData[]
-  /** 复制的组件（可能是单个也可能是数组） */
+  /** Copy的Components（可能是单个也可能是数组） */
   dCopyElement: TdWidgetData[]
-  /** 记录当前选择的元素, data */
+  /** 记录当前Select的Elements, data */
   selectItem: { data?: Record<string, any> | null, type?: string }
   /** 正在活动的鼠标事件 */
   activeMouseEvent: MouseEvent | null
@@ -86,16 +86,16 @@ type TGetter = {
 }
 
 type TAction = {
-  /** 设置 mousemove 操作的初始值 */
+  /** Settings mousemove Action的初始值 */
   initDMove: (payload: TInidDMovePayload) => void
-  /** 移动组件 */
+  /** 移动Components */
   dMove: (payload: TMovePayload) => void
   updateGroupSize: (uuid: string) => void
-  /** 设置 resize 操作的初始值 */
+  /** Settings resize Action的初始值 */
   initDResize: (payload: TInitResize) => void
   dResize: (payload: TdResizePayload) => void
   updateHoverUuid: (uuid: string) => void
-  /** 更新组件数据 */
+  /** 更新Components数据 */
   updateWidgetData: (payload: TUpdateWidgetPayload) => void
   /** 一次更新多个widget */
   updateWidgetMultiple: (payload: TUpdateWidgetMultiplePayload) => void
@@ -105,14 +105,14 @@ type TAction = {
   addGroup: (group: TdWidgetData[]) => void
   /** setTemplate */
   setTemplate: (template: TdWidgetData[]) => void
-  /** 删除组件 */
+  /** DeleteComponents */
   deleteWidget: () => void
-  /** 拷贝组件 */
+  /** 拷贝Components */
   copyWidget: () => void
-  /** 粘贴组件 */
+  /** PasteComponents */
   pasteWidget: () => void
   selectWidget: (data: TSelectWidgetData) => void
-  /** 多选元素 */
+  /** Multi-selectElements */
   selectWidgetsInOut: (data: TSelectWidgetData) => void
   /** updateAlign */
   updateAlign: (data: TUpdateAlignData) => void
@@ -120,7 +120,7 @@ type TAction = {
   updateLayerIndex: (data: TupdateLayerIndexData) => void
   /** ungroup */
   ungroup: (uuid: string) => void
-  /** 设置拖拽时在哪个图层 */
+  /** Settings拖拽时在哪个Layers */
   setDropOver: (uuid: string) => void
   setSelectItem: (data: TselectItem) => void
   resize: (data: TSize) => void
@@ -138,30 +138,30 @@ type TAction = {
 const WidgetStore = defineStore<"widgetStore", TWidgetState, TGetter, TAction>("widgetStore", {
   state: () => ({
     dActiveWidgetXY: {
-      x: 0, // 选中组件的横向初始值
-      y: 0, // 选中组件的纵向初始值
+      x: 0, // 选中Components的横向初始值
+      y: 0, // 选中Components的纵向初始值
     },
     dMouseXY: {
       x: 0, // 鼠标按下时的横坐标
       y: 0, // 鼠标按下时的纵坐标
     },
     dResizeWH: {
-      // 初始化调整大小时组件的宽高
+      // 初始化调整Size时Components的WH
       width: 0,
       height: 0,
     },
-    dActiveElement: null, // 选中的组件或页面
-    dHoverUuid: '-1', // 鼠标在这个图层上
-    dDropOverUuid: '', // 拖动时放在哪个图层上
-    dWidgets: [], // 已使用的组件
+    dActiveElement: null, // 选中的Components或页面
+    dHoverUuid: '-1', // 鼠标在这个Layers上
+    dDropOverUuid: '', // 拖动时放在哪个Layers上
+    dWidgets: [], // 已使用的Components
     dLayouts: [{
       global: pageDefault,
       layers: []
-    }], // 页面与图层数据
-    dSelectWidgets: [], // 记录多选的组件
-    selectItem: { data: null }, // 记录当前选择的元素, data
+    }], // 页面与Layers数据
+    dSelectWidgets: [], // 记录Multi-select的Components
+    selectItem: { data: null }, // 记录当前Select的Elements, data
     activeMouseEvent: null, // 正在活动的鼠标事件
-    dCopyElement: [], // 复制的组件（可能是单个也可能是数组）
+    dCopyElement: [], // Copy的Components（可能是单个也可能是数组）
   }),
 
   // getters: {

@@ -12,7 +12,7 @@ export default class WebWorker {
     if (typeof Worker === 'undefined') {
       console.error('Web Worker is not supported in this browser.')
     } else {
-      // 动态引入无法打包，必须是静态的
+      // 动态引入None法打包，必须是静态的
       // const file = name ? `../widgets/${name}.worker.ts` : null
       // file &&
       //   (this.worker = new Worker(new URL(file, import.meta.url), {

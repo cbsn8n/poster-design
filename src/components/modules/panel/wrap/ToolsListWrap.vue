@@ -1,28 +1,28 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-02-11 18:48:23
- * @Description: 组件列表
+ * @Description: Components列表
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2023-10-13 18:48:25
 -->
 <template>
   <div class="wrap">
-    <div class="header">组件</div>
+    <div class="header">Components</div>
     <div class="item" @click="addQrcode">
       <i class="icon sd-w-qrcode" />
-      <div class="text"><span>二维码</span><span class="desc">在设计中使用风格化二维码</span></div>
+      <div class="text"><span>QR Code</span><span class="desc">Use stylized QR codes in your design</span></div>
     </div>
-    <div class="header">其它</div>
+    <div class="header">Other</div>
     <div class="item" @click="openImageCutout">
       <i class="icon sd-AI_zhineng" />
-      <div class="text"><span>智能抠图</span> <span class="desc">上传图像一键去除背景</span></div>
+      <div class="text"><span>Smart Cutout</span> <span class="desc">Upload image to remove background</span></div>
     </div>
     <imageCutout ref="imageCutoutRef" />
   </div>
 </template>
 
 <script lang="ts" setup>
-// 图片列表
+// Image列表
 // const NAME = 'tool-list-wrap'
 // import api from '@/api'
 import { ref, onMounted } from 'vue'
@@ -64,8 +64,8 @@ onMounted(() => {
 // }
 
 function addQrcode() {
-  // store.commit('setShowMoveable', false) // 清理掉上一次的选择
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择
+  // store.commit('setShowMoveable', false) // 清理掉上一次的Select
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select
 
   let setting = JSON.parse(JSON.stringify(wQrcodeSetting))
   const { width: pW, height: pH } = dPage.value

@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-03-09 14:20:09
- * @Description: 处理常用操作
+ * @Description: 处理常用Action
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-19 15:55:22
  */
@@ -39,7 +39,7 @@ export default function keyCodeOptions(e: any, params: any) {
         const { type, editable } = widgetStore.dActiveElement
 
         if (type === 'w-text') {
-          // 不在编辑状态则执行删除
+          // 不在编辑状态则执行Delete
           !editable && controlStore.showMoveable && widgetStore.deleteWidget()
           // !editable && controlStore.showMoveable && store.dispatch('deleteWidget')
         } else {
@@ -55,7 +55,7 @@ export default function keyCodeOptions(e: any, params: any) {
   }
 }
 /**
- * 对组合的子元素某个值进行判断
+ * 对Group的子Elements某个值进行判断
  */
 function checkGroupChild(pid: number | string, key: keyof TdWidgetData) {
   const widgetStore = useWidgetStore()
@@ -67,7 +67,7 @@ function checkGroupChild(pid: number | string, key: keyof TdWidgetData) {
   return itHas
 }
 /**
- * TODO 键盘操作上下左右移动组件
+ * TODO 键盘Action上下左右移动Components
  */
 function udlr(type: keyof TdWidgetData, value: any, event: any) {
   const widgetStore = useWidgetStore()
@@ -90,7 +90,7 @@ function udlr(type: keyof TdWidgetData, value: any, event: any) {
 
 function dealWithSpace(event: any) {
   const widgetStore: any = useWidgetStore()
-  // 防止编辑文字时空格按不出来
+  // 防止编辑Text时空格按不出来
   if (!widgetStore.dActiveElement.editable) {
     event.preventDefault()
     if (widgetStore.dActiveElement?.uuid == '-1') {

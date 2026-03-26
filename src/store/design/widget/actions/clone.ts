@@ -12,7 +12,7 @@ import { useWidgetStore } from "@/store"
 import { customAlphabet } from 'nanoid/non-secure'
 const nanoid = customAlphabet('1234567890abcdef', 12)
 
-/** 拷贝组件 */
+/** 拷贝Components */
 export function copyWidget(store: TWidgetStore) {
   const activeElement = JSON.parse(JSON.stringify(store.dActiveElement))
   if (activeElement.type === 'page') {
@@ -49,7 +49,7 @@ export function copyWidget(store: TWidgetStore) {
   store.dCopyElement = JSON.parse(JSON.stringify(container))
 }
 
-/** 粘贴组件 */
+/** PasteComponents */
 export function pasteWidget(store: TWidgetStore) {
   const widgetStore = useWidgetStore()
   const copyElement: TdWidgetData[] = JSON.parse(JSON.stringify(store.dCopyElement))
@@ -72,6 +72,6 @@ export function pasteWidget(store: TWidgetStore) {
     store.dActiveElement = container
     store.dSelectWidgets = []
   }
-  // 复制以调整下次粘贴的位置
+  // Copy以调整下次Paste的Position
   store.copyWidget()
 }

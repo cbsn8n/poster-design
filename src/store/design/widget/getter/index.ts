@@ -14,7 +14,7 @@ export type TWidgetJsonData = TPageState & {
   widgets: TdWidgetData
 }
 
-/** 返回组件Json数据 */
+/** BackComponentsJson数据 */
 export function widgetJsonData(state: TWidgetState) {
   const pageStore = useCanvasStore()
   // const page: TWidgetJsonData = JSON.parse(JSON.stringify(pageStore.dPage))

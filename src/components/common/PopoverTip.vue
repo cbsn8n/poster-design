@@ -1,7 +1,7 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2022-04-10 12:12:57
- * @Description: tooltip提示
+ * @Description: tooltipNotice
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-03-11 01:41:20
 -->

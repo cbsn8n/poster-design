@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-// 图标按钮选择组件
+// 图标按钮SelectComponents
 // const NAME = 'icon-item-select'
 
 export type TIconItemSelectData = {

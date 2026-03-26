@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-03-09 16:29:54
- * @Description: 处理和ctrl建相关的操作
+ * @Description: 处理和ctrl建相关的Action
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2025-03-22 12:56:29
  */
@@ -42,7 +42,7 @@ export default function dealWithCtrl(e: KeyboardEvent, _this: any) {
 }
 
 /**
- * 对组合的子元素某个值进行判断
+ * 对Group的子Elements某个值进行判断
  */
 function checkGroupChild(pid: number | string, key: any) {
   const widgetStore = useWidgetStore()
@@ -54,7 +54,7 @@ function checkGroupChild(pid: number | string, key: any) {
   return itHas
 }
 /**
- * 复制元素
+ * CopyElements
  */
 function copy() {
   const widgetStore = useWidgetStore()
@@ -67,7 +67,7 @@ function copy() {
   // !widgetStore.dActiveElement?.editable && store.dispatch('copyWidget')
 }
 /**
- * 粘贴
+ * Paste
  */
 let pasteImageFile: any = null
 document.addEventListener('paste', async (e: any) => {
@@ -88,7 +88,7 @@ async function paste() {
   }, 10)
 }
 /**
- * 撤销
+ * Undo
  */
 function undo(shiftKey: any) {
   const widgetStore = useWidgetStore()
@@ -96,7 +96,7 @@ function undo(shiftKey: any) {
 
   const { type, editable }: any = widgetStore.dActiveElement
   if (type === 'w-text') {
-    // 不在编辑状态则执行撤销操作
+    // 不在编辑状态则执行UndoAction
     !editable && (shiftKey ? historyStore.handleHistory('redo') : historyStore.handleHistory('undo'))
   } else shiftKey ? historyStore.handleHistory('redo') : historyStore.handleHistory('undo')
 }

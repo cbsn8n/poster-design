@@ -1,14 +1,14 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2021-08-29 18:17:13
- * @Description: 二次封装上传组件
+ * @Description: 二次封装上传Components
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @Date: 2024-03-05 10:50:00
 -->
 <template>
   <el-upload action="" accept="image/*" :http-request="upload" :show-file-list="false" multiple>
     <slot>
-      <el-button size="small">上传图片<i class="el-icon-upload el-icon--right"></i></el-button>
+      <el-button size="small">Upload Image<i class="el-icon-upload el-icon--right"></i></el-button>
     </slot>
   </el-upload>
 </template>
@@ -62,7 +62,7 @@ let uploadList: File[] = [] // 上传队列
 let index: number = 0 // 当前上传的脚标
 let count: number = 0 // 当前上传总数
 
-let tempSimpleRes: TQiNiuUploadReturn | null // 单个文件上传时返回
+let tempSimpleRes: TQiNiuUploadReturn | null // 单个File上传时Back
 
 // onMounted(async () => {
 //   await nextTick()
@@ -93,13 +93,13 @@ const uploadQueue = async () => {
     const file = uploadList[0]
     if (file) {
       if (file.size <= 1024 * 1024) {
-        tempSimpleRes = await qiNiuUpload(file) // 队列有文件，执行上传
+        tempSimpleRes = await qiNiuUpload(file) // 队列有File，执行上传
         const { width, height } = await getImage(file)
-        useNotification('上传成功', '', { position: 'bottom-left' })
-        emit('done', { width, height, url: tempSimpleRes?.url }) // 单个文件进行响应
-      } else useNotification('爱护小水管', '请上传小于 1M 的图片哦!', { type: 'error', position: 'bottom-left' })
+        useNotification('Upload successful', '', { position: 'bottom-left' })
+        emit('done', { width, height, url: tempSimpleRes?.url }) // 单个File进行响应
+      } else useNotification('File too large', 'Please upload images smaller than 1MB!', { type: 'error', position: 'bottom-left' })
       uploading = false
-      handleRemove() // 移除已上传文件
+      handleRemove() // 移除已上传File
       index++
       updatePercent(null)
       uploadQueue()

@@ -11,7 +11,7 @@ import { getCombined, initGroupJson, realCombined } from "./action";
 import { TdWidgetData } from "../widget";
 
 type TGroupState = {
-  /** 组合的json数据 */
+  /** Group的json数据 */
   dGroupJson: string
 }
 
@@ -23,7 +23,7 @@ type TGroupAction = {
 
 const GroupStore = defineStore<"groupStore", TGroupState, {}, TGroupAction>("groupStore", {
   state: () => ({
-    dGroupJson: "" // 组合的json数据
+    dGroupJson: "" // Group的json数据
   }),
 
   actions: {

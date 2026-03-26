@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2021-08-01 14:12:08
- * @Description: 快捷键，目前是mixin形式放入views/index.vue中
+ * @Description: Shortcuts，目前是mixin形式放入views/index.vue中
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-16 19:17:51
  */
@@ -40,7 +40,7 @@ const shortcuts = {
           // store.dispatch('updateAltDown', true)
           clearInterval(checkCtrl)
           checkCtrl = setInterval(() => {
-            // TODO: 防止组合键导致页面失焦无法操作
+            // TODO: 防止Group键导致页面失焦None法Action
             if (!document.hasFocus()) {
               clearInterval(checkCtrl)
               hadDown = false

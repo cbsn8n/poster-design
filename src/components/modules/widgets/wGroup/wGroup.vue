@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-// 组合组件
+// GroupComponents
 const NAME = 'w-group'
 import { nextTick, onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
 
@@ -85,7 +85,7 @@ onMounted(async () => {
   document.addEventListener('mousedown', touchstart, false)
   document.addEventListener('mouseup', touchend, false)
   if (props.params?.rotate && widget.value) {
-    // TODO: 设置原点是为了暂时解决组合旋转后缩放保存数据错位问题
+    // TODO: Settings原点是为了暂时解决GroupRotation后ZoomSave数据错位问题
     widget.value.style.transformOrigin = 'left top'
     widget.value.style.transform += `rotate(${props.params.rotate})`
   }
@@ -120,8 +120,8 @@ function updateRecord(tempScale ?: number) {
       // TODO DOM Change
       // this.dActiveElement.scale = this.ratio
       if (widget.value) {
-        // 缩放原点在左上角，旋转原点在中心
-        widget.value.style.transformOrigin = 'left top' // 设置scale的原点
+        // Zoom原点在左上角，Rotation原点在中心
+        widget.value.style.transformOrigin = 'left top' // Settingsscale的原点
         setTransformAttribute(widget.value, 'scale', ratio.value)
       }
       // this.timer = setTimeout(() => {
@@ -168,7 +168,7 @@ function touchend() {
     setTimeout(() => {
       if (!widget.value) return
       widget.value.style.opacity = `${props.params.opacity}`
-      // widget.value.style.transformOrigin = 'center' // 设置scale的原点
+      // widget.value.style.transformOrigin = 'center' // Settingsscale的原点
     }, 100)
 
     // const opacity = this.$refs.widget.style.opacity

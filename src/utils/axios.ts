@@ -43,12 +43,12 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use((res: AxiosResponse<any>) => {
     // store.dispatch('hideLoading');
-    // 接口规则：只有正确code为200时返回result结果对象，错误返回整个结果对象
+    // 接口规则：只有正确code为200时Backresult结果对象，错误Back整个结果对象
     if (!res.data) {
       return Promise.reject(res)
     }
     if (res.data.code === 401) {
-      console.log('登录失效')
+      console.log('Login失效')
       useUserStore().changeOnline(false)
       // store.commit('changeOnline', false)
     }
@@ -87,7 +87,7 @@ const fetch = <T = any> (
   if (params?._noLoading) {
     delete params._noLoading
   } else {
-    // store.commit('loading', '加载中..');
+    // store.commit('loading', 'Loading..');
   }
 
   const token = defaultToken//localStorage.getItem(LocalStorageKey.tokenKey)

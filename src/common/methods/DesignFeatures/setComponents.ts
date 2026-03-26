@@ -1,7 +1,7 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2022-02-22 15:06:14
- * @Description: 设置图片类型元素
+ * @Description: SettingsImage类型Elements
  * @LastEditors: ShawnPhang <https://m.palxp.cn>, Jeremy Yu <https://github.com/JeremyYu-cn>
  * @LastEditTime: 2024-03-02 11:50:00
  */
@@ -24,7 +24,7 @@ export default async function setCompData(item: TdWidgetData[] | string) {
   if (imgWidth > screenWidth || imgHeight > screenHeight) {
     ratio = Math.min(screenWidth / imgWidth, screenHeight / imgHeight)
   }
-  // 根据画布缩放比例再进行一次调整
+  // 根据画布Zoom比例再进行一次调整
   if (ratio < 1) {
     ratio *= canvasStore.dZoom / 100
     group.forEach((element) => {

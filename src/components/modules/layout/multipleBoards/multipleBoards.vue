@@ -1,14 +1,14 @@
 <!--
  * @Author: ShawnPhang
  * @Date: 2024-04-11 17:27:58
- * @Description: 多画板操作界面
+ * @Description: 多BoardAction界面
  * @LastEditors: ShawnPhang <https://m.palxp.cn>
  * @LastEditTime: 2024-04-18 17:12:34
 -->
 <template>
   <div :style="{ position, bottom: -1 * st + 'px', left: sl + 'px' }" :class="['artboards', isFold ? 'fold' : 'unfold']">
     <div ref="listRef" class="wrap">
-      <div v-if="isFold" v-show="dLayouts.length > 0" class="btn" @click="isFold = !isFold">画板 {{ index + 1 }}/{{ dLayouts.length }} <i class="icon sd-zhankai" /></div>
+      <div v-if="isFold" v-show="dLayouts.length > 0" class="btn" @click="isFold = !isFold">Board {{ index + 1 }}/{{ dLayouts.length }} <i class="icon sd-zhankai" /></div>
       <div class="list" v-else>
         <span @click="isFold = !isFold" class="icon-btn"><i class="icon sd-zhankai" /></span>
         <div v-for="(l, li) in dLayouts" :key="'l' + li" :style="{ width: getPW(l.global) + 'px' }" @click="selectPoster(li)" :class="['item-box', index == li ? 'item-select' : 'item-default']">
@@ -61,7 +61,7 @@ const { dWidgets, dLayouts } = storeToRefs(widgetStore)
 watch(
   () => dZoom.value,
   (val) => {
-    // 在画布缩放时bottom复位
+    // 在画布Zoom时bottom复位
     mainEl.scrollTop = 0
   },
 )
@@ -88,7 +88,7 @@ onMounted(async () => {
 
   listRef.value?.addEventListener('wheel', (event) => {
     event.preventDefault()
-    // 使用滚轮横向滚动
+    // 使用Scroll横向滚动
     listRef.value.scrollLeft += event.deltaY
   })
 })
@@ -102,7 +102,7 @@ function getTransform(global: any) {
   const left = isVertical ? ((72 - width * s) / 2 - 1) / s : 0
   return `scale(${s}) translateX(${left}px)`
 }
-/** 计算实际宽度 */
+/** 计算实际W度 */
 function getPW(global: any) {
   const { width, height } = global
   const isVertical = height > width
@@ -127,7 +127,7 @@ function getInitPage() {
 }
 
 function addLayer() {
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择框
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select框
   widgetStore.dLayouts.push({ global: getInitPage(), layers: [] })
   canvasStore.dCurrentPage = dLayouts.value.length - 1
   widgetStore.setDWidgets(widgetStore.getWidgets())
@@ -137,7 +137,7 @@ function addLayer() {
 }
 
 function selectPoster(i: number) {
-  controlStore.setShowMoveable(false) // 清理掉上一次的选择框
+  controlStore.setShowMoveable(false) // 清理掉上一次的Select框
   canvasStore.dCurrentPage = i
   widgetStore.setDWidgets(widgetStore.getWidgets())
   canvasStore.setDPage(dLayouts.value[i].global)
@@ -145,13 +145,13 @@ function selectPoster(i: number) {
 }
 function removePoster(removeIndex: number) {
   if (index.value === removeIndex) {
-    // 当前画布下，清空画布内容而非删除
+    // 当前画布下，清空画布内容而非Delete
     widgetStore.dLayouts[removeIndex].layers.length = 0
-    ElMessage('画布已清空')
-    widgetStore.setDWidgets([]) // 清除画布图层
+    ElMessage('Canvas cleared')
+    widgetStore.setDWidgets([]) // 清除画布Layers
     // widgetStore.updateDWidgets()
     // widgetStore.dLayouts[removeIndex].global = getInitPage()
-    canvasStore.setDPage(getInitPage()) // 初始化背景
+    canvasStore.setDPage(getInitPage()) // 初始化Background
     // canvasStore.updateDPage()
     // widgetStore.setDWidgets([])
   } else widgetStore.dLayouts.splice(removeIndex, 1)

@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-// 文本组件
+// TextComponents
 // const NAME = 'w-text'
 
 import { reactive, toRefs, computed, onUpdated, watch, onMounted, ref } from 'vue'
@@ -171,7 +171,7 @@ function updateText(e?: Event) {
 
 function writingText(e?: Event) {
   // updateText(e)
-  // TODO: 修正文字选框高度
+  // TODO: 修正Text选框H度
   const el = editWrap.value || widget.value
   if (!el) return
   widgetStore.updateWidgetData({
