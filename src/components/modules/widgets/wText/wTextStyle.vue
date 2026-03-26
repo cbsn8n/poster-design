@@ -180,7 +180,7 @@ function selectTextEffect({ key, value, style }: any) {
 
 function loadFonts() {
   const localFonts = useFontStore.list
-  const fontLists: Record<string, any> = { Current Page: [], Chinese: [], English: [] }
+  const fontLists: Record<string, any> = { 'Current Page': [], 'Chinese': [], 'English': [] }
   for (const font of localFonts) {
     const { id, oid, value, url, alias, preview, lang } = font
     const item = { id, oid, value, url, alias, preview }
