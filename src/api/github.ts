@@ -1,7 +1,7 @@
 /*
  * @Description: Image upload helper (replaces GitHub API with local upload)
  */
-import api from '@/api/material'
+import { upload } from '@/api/material'
 
 const putPic = async (file: File | string): Promise<string> => {
   // If it's a base64 string, convert to File
@@ -18,7 +18,7 @@ const putPic = async (file: File | string): Promise<string> => {
     blob = file
   }
 
-  const result = await api.upload({ file: blob, folder: 'psd' }, () => {})
+  const result = await upload({ file: blob, folder: 'psd' }, () => {})
   return (result as any)?.url || ''
 }
 
