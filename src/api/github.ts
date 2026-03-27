@@ -1,37 +1,25 @@
 /*
- * @Author: ShawnPhang
- * @Date: 2023-07-13 17:01:37
- * @Description: github api
- * @LastEditors: ShawnPhang <site: book.palxp.com>
- * @LastEditTime: 2023-08-10 10:33:59
+ * @Description: Image upload helper (replaces GitHub API with local upload)
  */
-import fetch from '@/utils/axios'
-const cutToken = 'ghp_qpV8PUxwY7as4jc'
+import api from '@/api/material'
 
-const reader = new FileReader()
-function getBase64(file: File) {
-  return new Promise((resolve) => {
-    reader.onload = function (event) {
-      const fileContent = event.target && event.target.result
-      resolve((fileContent as string).split(',')[1])
+const putPic = async (file: File | string): Promise<string> => {
+  // If it's a base64 string, convert to File
+  let blob: File
+  if (typeof file === 'string') {
+    const byteCharacters = atob(file)
+    const byteNumbers = new Array(byteCharacters.length)
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i)
     }
-    reader.readAsDataURL(file)
-  })
-}
+    const byteArray = new Uint8Array(byteNumbers)
+    blob = new File([byteArray], `upload_${Date.now()}.png`, { type: 'image/png' })
+  } else {
+    blob = file
+  }
 
-const putPic = async (file: File | string) => {
-  const repo = 'shawnphang/files'
-  const d = new Date()
-  const content = typeof file === 'string' ? file : await getBase64(file)
-  const extra = typeof file === 'string' ? '.png' : file.name?.split('.').pop()
-  const path = `${d.getFullYear()}/${d.getMonth()}/${d.getTime()}${extra}`
-  const imageUrl = 'https://api.github.com/repos/' + repo + '/contents/' + path
-  const body = { branch: 'main', message: 'upload', content, path }
-  const res = await fetch(imageUrl, body, 'put', {
-    Authorization: `token ${cutToken}AqYfNFb6G2f2OVl4IVFOY`,
-    'Content-Type': 'application/json; charset=utf-8',
-  })
-  return res?.content?.download_url || `https://fastly.jsdelivr.net/gh/shawnphang/files@main/${path}`
+  const result = await api.upload({ file: blob, folder: 'psd' }, () => {})
+  return (result as any)?.url || ''
 }
 
 export default { putPic }

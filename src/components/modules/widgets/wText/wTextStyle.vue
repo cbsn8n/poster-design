@@ -180,11 +180,11 @@ function selectTextEffect({ key, value, style }: any) {
 
 function loadFonts() {
   const localFonts = useFontStore.list
-  const fontLists: Record<string, any> = { 'Current Page': [], 'Chinese': [], 'English': [] }
+  const fontLists: Record<string, any> = { 'Current Page': [], 'All Fonts': [] }
   for (const font of localFonts) {
     const { id, oid, value, url, alias, preview, lang } = font
     const item = { id, oid, value, url, alias, preview }
-    lang === 'zh' ? fontLists['Chinese'].unshift(item) : fontLists['English'].unshift(item)
+    fontLists['All Fonts'].push(item)
   }
   fontLists['Current Page'] = usePageFontsFilter()
   state.fontClassList = fontLists

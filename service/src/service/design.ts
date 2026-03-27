@@ -98,10 +98,10 @@ export async function saveTemplate(req: any, res: any) {
       height,
     }
     fs.writeFileSync(savePath, JSON.stringify(jsonData))
-    // 生成封面
+    // 生成封面 (non-blocking, don't wait)
     const size = width > height ? 640 : 320
     const fetchScreenshotUrl = `http://localhost:7001/api/screenshots?tempid=${id}&tempType=${type}&width=${width}&height=${height}&type=cover&size=${size}&quality=75`
-    await axios.get(fetchScreenshotUrl, { responseType: 'arraybuffer' })
+    axios.get(fetchScreenshotUrl, { responseType: 'arraybuffer', timeout: 30000 }).catch((e: any) => console.log('Cover generation failed:', e.message))
     // 保存到其他地方可以设置 responseType: 'arraybuffer' 后操作buffer，这里只为了得到封面，发起请求就可以了
     if (isAdd) {
       const listVal = fs.readFileSync(path.resolve(__dirname, `../mock/${listPath}`), 'utf8')
