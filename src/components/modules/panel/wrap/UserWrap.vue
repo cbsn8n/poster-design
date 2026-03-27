@@ -190,10 +190,9 @@ const deleteImg = async ({ i, item }: controlImgParam) => {
     return false
   }
   const arr = item.url.split('/')
-  let key = arr.splice(3, arr.length - 1).join('/')
-  api.material.deleteMyPhoto({ id: item.id, key })
-  if (!imgListRef.value) return
-  imgListRef.value.delItem(i) // 通知标记
+  let key = arr.splice(2, arr.length - 1).join('/')
+  await api.material.deleteMyPhoto({ id: item.id, key })
+  state.imgList.splice(i, 1)
 }
 const deleteWorks = async ({ i, item }: controlImgParam) => {
   const isPass = await useConfirm('Warning', 'Cannot be recovered after deletion. Please confirm.', 'warning')
