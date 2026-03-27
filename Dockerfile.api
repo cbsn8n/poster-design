@@ -5,6 +5,8 @@ RUN npm install
 COPY ./service/ ./
 # Patch: set website to point to the web container for Puppeteer screenshot generation
 RUN sed -i "s|website: 'http://127.0.0.1:5173/'|website: 'http://poster-web'|g" src/configs.ts
+# Patch: fix FileUrl to use relative paths instead of localhost
+RUN find src -name "*.ts" -exec sed -i "s|http://localhost:7001/static/|/static/|g" {} +
 RUN npm run build && cp -r ./src/mock ./dist
 
 FROM ghcr.io/puppeteer/puppeteer:latest
