@@ -34,7 +34,7 @@ app.all('*', (req: any, res: any, next: any) => {
   next()
 })
 
-app.use('/static', setUploadContentType, express.static(process.cwd() + `/static/`))
+app.use('/static', setUploadContentType, express.static(filePath))
 if (process.env.NODE_ENV === 'development') {
   app.use('/store', setUploadContentType, express.static(process.cwd() + `/src/mock/assets`))
 }
