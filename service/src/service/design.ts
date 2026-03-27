@@ -16,19 +16,20 @@ import { checkCreateFolder, randomCode, send } from '../utils/tools'
 const FileUrl = 'http://localhost:7001/static/'
 
 
-// design/list 获取模板列表（虚拟）
+// design/list 获取模板列表
 export async function getTemplates(req: any, res: Response) {
-  /**
-   * @api {get} /design/list 获取模板列表（虚拟）
-   * @apiVersion 1.0.0
-   * @apiGroup design
-   */
-  const { cate, type } = req.query
+  const { cate, type, page = 1 } = req.query
+  if (Number(page) > 1) {
+    send.success(res, { list: [] })
+    return
+  }
   const tempPath = type == 1 ? `../mock/components/list/${cate}.json` : '../mock/templates/list.json'
   try {
     const list = fs.readFileSync(path.resolve(__dirname, tempPath), 'utf8')
     send.success(res, { list: JSON.parse(list) })
-  } catch (error) {}
+  } catch (error) {
+    send.success(res, { list: [] })
+  }
 }
 
 // design/temp 获取模板（虚拟）
@@ -121,5 +122,52 @@ export default {
   getDetail,
   getMaterial,
   getPhotos,
-  saveTemplate
+  saveTemplate,
+  deleteTemplate,
+  getMyDesigns
+}
+
+// design/poster/del 删除模板
+export async function deleteTemplate(req: any, res: Response) {
+  try {
+    const { id } = req.body
+    if (!id) {
+      send.error(res, 'Missing id')
+      return
+    }
+    // Delete template JSON
+    const templatePath = path.resolve(__dirname, `../mock/templates/${id}.json`)
+    if (fs.existsSync(templatePath)) fs.unlinkSync(templatePath)
+    // Delete cover files
+    const coverJpg = filePath + `${id}-cover.jpg`
+    const coverPng = filePath + `${id}-screenshot.png`
+    if (fs.existsSync(coverJpg)) fs.unlinkSync(coverJpg)
+    if (fs.existsSync(coverPng)) fs.unlinkSync(coverPng)
+    // Remove from list
+    const listPath = path.resolve(__dirname, '../mock/templates/list.json')
+    try {
+      const listVal = fs.readFileSync(listPath, 'utf8')
+      const list = JSON.parse(listVal).filter((item: any) => item.id !== id)
+      fs.writeFileSync(listPath, JSON.stringify(list))
+    } catch (e) {}
+    send.success(res, null)
+  } catch (error) {
+    console.error('Delete template error:', error)
+    send.error(res, 'Delete failed')
+  }
+}
+
+// design/my 获取用户模板列表
+export async function getMyDesigns(req: any, res: Response) {
+  const page = parseInt(req.query.page) || 1
+  if (page > 1) {
+    send.success(res, { list: [] })
+    return
+  }
+  try {
+    const listVal = fs.readFileSync(path.resolve(__dirname, '../mock/templates/list.json'), 'utf8')
+    send.success(res, { list: JSON.parse(listVal) })
+  } catch (error) {
+    send.success(res, { list: [] })
+  }
 }

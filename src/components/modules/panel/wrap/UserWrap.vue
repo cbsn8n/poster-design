@@ -198,10 +198,7 @@ const deleteWorks = async ({ i, item }: controlImgParam) => {
   const isPass = await useConfirm('Warning', 'Cannot be recovered after deletion. Please confirm.', 'warning')
   if (isPass) {
     await api.material.deleteMyWorks({ id: item.id })
-    setTimeout(() => {
-      router.push({ path: '/home', query: {}, replace: true })
-      loadDesign(true)
-    }, 300)
+    state.designList.splice(i, 1)
   }
 }
 

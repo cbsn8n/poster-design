@@ -19,4 +19,6 @@ export default {
   GET_MATERIAL: '/design/material',
   GET_PHOTOS: '/design/imgs',
   UPDATE_TEMPLATE: '/design/edit',
+  DELETE_TEMPLATE: '/design/poster/del',
+  MY_DESIGNS: '/design/my',
 }
