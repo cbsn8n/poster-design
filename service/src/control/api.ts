@@ -13,6 +13,7 @@ export default {
   // 后端示例
   UPLOAD: path + '/file/upload',
   USER_IMAGES: '/design/user/image',
+  USER_IMAGE_DEL: '/design/user/image/del',
   GET_TEMPLATE_LIST: '/design/list',
   GET_TEMPLATE: '/design/temp',
   GET_MATERIAL: '/design/material',

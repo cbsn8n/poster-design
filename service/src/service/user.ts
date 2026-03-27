@@ -6,6 +6,8 @@
  * @LastEditTime: 2024-08-12 06:25:23
  */
 import { Request, Response } from 'express'
+import fs from 'fs'
+import path from 'path'
 const multiparty = require('multiparty')
 const { filePath } = require('../configs.ts')
 const { checkCreateFolder, filesReader, send } = require('../utils/tools.ts')
@@ -13,6 +15,30 @@ const { checkCreateFolder, filesReader, send } = require('../utils/tools.ts')
 const FileUrl = 'http://localhost:7001/static/'
 
 export default {
+  // design/user/image/del 删除用户上传文件
+  async deleteUserImage(req: any, res: Response) {
+    try {
+      const { key } = req.body
+      if (!key) {
+        send.error(res, 'Missing key')
+        return
+      }
+      const targetPath = path.resolve(filePath, key)
+      // Prevent path traversal
+      if (!targetPath.startsWith(path.resolve(filePath))) {
+        send.error(res, 'Invalid key')
+        return
+      }
+      if (fs.existsSync(targetPath)) {
+        fs.unlinkSync(targetPath)
+      }
+      send.success(res, null)
+    } catch (err) {
+      console.error('Delete error:', err)
+      send.error(res, 'Delete failed')
+    }
+  },
+
   // design/user/image 获取用户上传列表（虚拟）
   async getUserImages(req: any, res: Response) {
     /**
