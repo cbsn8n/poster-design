@@ -14,12 +14,17 @@ const FileUrl = 'http://localhost:7001/static/'
 
 export default {
   // design/user/image 获取用户上传列表（虚拟）
-  async getUserImages(req: Request, res: Response) {
+  async getUserImages(req: any, res: Response) {
     /**
      * @api {post} /design/user/image 获取用户上传列表（虚拟）
      * @apiVersion 1.0.0
      * @apiGroup user
      */
+    const page = parseInt(req.query.page) || 1
+    if (page > 1) {
+      send.success(res, { list: [] })
+      return
+    }
     const list = await filesReader('user')
     send.success(res, { list })
   },
