@@ -16,7 +16,7 @@
     <el-button class="upload-psd" plain type="primary" @click="openPSD">Import PSD to Create Template</el-button>
 
     <ul ref="listRef" v-infinite-scroll="load" class="infinite-list" :infinite-scroll-distance="150" style="overflow: auto">
-      <img-water-fall :listData="state.list" @select="selectItem" />
+      <img-water-fall :edit="editOptions" :listData="state.list" @select="selectItem" />
       <div v-show="state.loading" class="loading"><i class="el-icon-loading"></i> Loading...</div>
       <div v-show="state.loadDone" class="loading">All loaded</div>
     </ul>
@@ -167,6 +167,20 @@ function setTempId(tempId: number | string) {
 const openPSD = () => {
   window.open(router.resolve('/psd').href, '_blank')
 }
+
+const deleteTemplate = async ({ i, item }: any) => {
+  const isPass = await useConfirm('Warning', 'Cannot be recovered after deletion. Continue?', 'warning')
+  if (!isPass) return
+  await api.material.deleteMyWorks({ id: item.id })
+  state.list.splice(i, 1)
+}
+
+const editOptions = [
+  {
+    name: 'Delete',
+    fn: deleteTemplate,
+  },
+]
 
 defineExpose({
   load,

@@ -99,18 +99,29 @@ export async function saveTemplate(req: any, res: any) {
       height,
     }
     fs.writeFileSync(savePath, JSON.stringify(jsonData))
-    // 生成封面 (non-blocking, don't wait)
-    const size = width > height ? 640 : 320
-    const fetchScreenshotUrl = `http://localhost:7001/api/screenshots?tempid=${id}&tempType=${type}&width=${width}&height=${height}&type=cover&size=${size}&quality=75`
-    axios.get(fetchScreenshotUrl, { responseType: 'arraybuffer', timeout: 30000 }).catch((e: any) => console.log('Cover generation failed:', e.message))
-    // 保存到其他地方可以设置 responseType: 'arraybuffer' 后操作buffer，这里只为了得到封面，发起请求就可以了
     if (isAdd) {
       const listVal = fs.readFileSync(path.resolve(__dirname, `../mock/${listPath}`), 'utf8')
       const list = JSON.parse(listVal)
-      const cover = type == 1 ? FileUrl + `/${id}-screenshot.png` : FileUrl + `/${id}-cover.jpg`
-      list.unshift({ id, cover, title, width, height })
+      list.unshift({ id, cover: '', title: title || 'Custom Template', width, height })
       fs.writeFileSync(path.resolve(__dirname, `../mock/${listPath}`), JSON.stringify(list))
     }
+    // Try generating cover in background (non-blocking)
+    const size = width > height ? 640 : 320
+    const fetchScreenshotUrl = `http://localhost:7001/api/screenshots?tempid=${id}&tempType=${type}&width=${width}&height=${height}&type=cover&size=${size}&quality=75`
+    axios.get(fetchScreenshotUrl, { responseType: 'arraybuffer', timeout: 30000 })
+      .then(() => {
+        // Update cover URL in list
+        try {
+          const lv = fs.readFileSync(path.resolve(__dirname, `../mock/${listPath}`), 'utf8')
+          const ls = JSON.parse(lv)
+          const item = ls.find((x: any) => x.id === id)
+          if (item) {
+            item.cover = `/static/${id}-cover.jpg`
+            fs.writeFileSync(path.resolve(__dirname, `../mock/${listPath}`), JSON.stringify(ls))
+          }
+        } catch (e) {}
+      })
+      .catch((e: any) => console.log('Cover generation failed:', e.message))
     send.success(res, { id })
   } catch (error) {
     console.log(error)
