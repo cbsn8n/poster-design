@@ -7,6 +7,10 @@ COPY ./service/ ./
 RUN sed -i "s|website: 'http://127.0.0.1:5173/'|website: 'http://poster-web'|g" src/configs.ts
 # Patch: fix FileUrl to use relative paths instead of localhost
 RUN find src -name "*.ts" -exec sed -i "s|http://localhost:7001/static/|/static/|g" {} +
+# Patch: let puppeteer find chrome automatically (don't hardcode path)
+RUN sed -i "s|executablePath = isDev ? null : '/opt/google/chrome-unstable/chrome'|executablePath = null|g" src/configs.ts
+# Patch: fix en-dash characters in puppeteer args (Chrome doesn't understand them)
+RUN find src -name "*.ts" -exec sed -i 's/\xe2\x80\x93/--/g' {} +
 RUN npm run build && cp -r ./src/mock ./dist
 
 FROM ghcr.io/puppeteer/puppeteer:latest
@@ -16,5 +20,7 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/dist ./
 RUN npm install
 RUN mkdir -p server && mv -f server.js server/index.js
+COPY entrypoint-api.sh /usr/src/app/entrypoint-api.sh
+RUN chmod +x /usr/src/app/entrypoint-api.sh
 EXPOSE 7001
-CMD ["node", "server/index.js"]
+CMD ["/usr/src/app/entrypoint-api.sh"]
