@@ -21,4 +21,6 @@ export default {
   UPDATE_TEMPLATE: '/design/edit',
   DELETE_TEMPLATE: '/design/poster/del',
   MY_DESIGNS: '/design/my',
+  RENDER: path + '/render',
+  TEMPLATE_INFO: path + '/template-info',
 }
