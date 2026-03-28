@@ -124,18 +124,26 @@ const types: any = {
 async function loadPSD(file: File) {
   // const { compositeBuffer, psdFile } = await myWorker.start(file)
   const { data }: any = await myWorker.start(file)
-  // const data = await processPSD2Page(file)
 
   for (let i = 0; i < data.clouds.length; i++) {
-    const x: any = data.clouds[i]
-    const rawData = JSON.parse(JSON.stringify(types[x.type])) || {}
-    delete x.type
-    x.src && (x.imgUrl = createBase64(x.src, { width: x.width, height: x.height })) && delete x.src
-    widgetStore.addWidget(Object.assign(rawData, x))
+    try {
+      const x: any = data.clouds[i]
+      if (!x || !x.type) continue
+      const rawData = JSON.parse(JSON.stringify(types[x.type])) || {}
+      delete x.type
+      if (x.src) {
+        x.imgUrl = createBase64(x.src, { width: x.width, height: x.height })
+        delete x.src
+      }
+      widgetStore.addWidget(Object.assign(rawData, x))
+    } catch (error: any) {
+      console.warn(`Skipping layer ${i}: ${error.message}`)
+    }
   }
 
   const { width, height, background: bg } = data
-  pageStore.setDPage(Object.assign(pageStore.dPage, { width, height, backgroundColor: bg.color, backgroundImage: createBase64(bg.image, { width, height }) }))
+  const bgImage = bg?.image ? createBase64(bg.image, { width, height }) : ''
+  pageStore.setDPage(Object.assign(pageStore.dPage, { width, height, backgroundColor: bg?.color || '#ffffff', backgroundImage: bgImage }))
   await loadDone()
 }
 

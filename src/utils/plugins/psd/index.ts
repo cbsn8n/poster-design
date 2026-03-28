@@ -151,10 +151,15 @@ function toCloudImageConfig(data: any, layer: any) {
 }
 
 function toCloud(data: any, layer: any) {
-  if (layer.typeTool) {
-    return toCloudTextConfig(data, layer)
-  } else {
-    return toCloudImageConfig(data, layer)
+  try {
+    if (layer.typeTool) {
+      return toCloudTextConfig(data, layer)
+    } else {
+      return toCloudImageConfig(data, layer)
+    }
+  } catch (error: any) {
+    console.warn(`Skipping layer "${data?.name || 'unknown'}": ${error.message}`)
+    return null
   }
 }
 
@@ -179,13 +184,18 @@ export async function convertPSD2Page(psd: any) {
     color: '#ffffff00',
     image: '',
   }
-  const [bgData] = children.slice(-1)
-  if (['Background', 'background', 'Background'].includes(bgData.name)) {
-    const layer = findLayer(bgData)
-    const image = toCloudImageConfig(bgData, layer)
-    background.image = image.src
-
-    children.pop()
+  try {
+    const [bgData] = children.slice(-1)
+    if (bgData && ['Background', 'background', 'Background'].includes(bgData.name)) {
+      const layer = findLayer(bgData)
+      if (layer) {
+        const image = toCloudImageConfig(bgData, layer)
+        background.image = image.src
+      }
+      children.pop()
+    }
+  } catch (error: any) {
+    console.warn('Failed to process background layer:', error.message)
   }
 
   const page = {
@@ -196,32 +206,24 @@ export async function convertPSD2Page(psd: any) {
   }
 
   const process: any = async (children: any) => {
-    children.forEach(async (item: any) => {
-      if (item.type === 'group' && Array.isArray(item.children)) {
-        return item.visible ? process(item.children) : null
+    for (const item of children) {
+      try {
+        if (item.type === 'group' && Array.isArray(item.children)) {
+          if (item.visible) await process(item.children)
+          continue
+        }
+
+        const layer = findLayer(item)
+        if (!layer) continue
+
+        const cloud = toCloud(item, layer)
+        if (!cloud) continue
+
+        page.clouds.unshift(cloud as never)
+      } catch (error: any) {
+        console.warn(`Skipping problematic layer "${item?.name || 'unknown'}": ${error.message}`)
       }
-
-      const layer = findLayer(item)
-      // console.log(layer)
-
-      // layer.image && console.log('-- image: --', layer.image)
-      // if (layer.image.hasMask) {
-      //   const { bottom, top, height, width, left, right } = layer.mask
-      //   const temp: any = { bottom, top, height, width, left, right }
-      //   temp.type = 'image'
-      //   temp.src = await file2Base64(layer.image.maskData.buffer)
-      //   page.clouds.unshift(temp as never)
-      // }
-
-      if (!layer) return
-
-      const cloud = toCloud(item, layer)
-
-      page.clouds.unshift(cloud as never)
-    })
-    // for (const item of children) {
-
-    // }
+    }
   }
 
   await process(children)
@@ -230,8 +232,19 @@ export async function convertPSD2Page(psd: any) {
 }
 
 export async function processPSD2Page(file: File) {
-  const url = URL.createObjectURL(file)
-  const psd = await parsePSDFromURL(url)
-  URL.revokeObjectURL(url)
-  return convertPSD2Page(psd)
+  try {
+    const url = URL.createObjectURL(file)
+    const psd = await parsePSDFromURL(url)
+    URL.revokeObjectURL(url)
+    return convertPSD2Page(psd)
+  } catch (error: any) {
+    console.error('PSD parsing failed:', error.message)
+    // Return empty page so import doesn't hang
+    return {
+      background: { color: '#ffffff', image: '' },
+      width: 1920,
+      height: 1080,
+      clouds: [],
+    }
+  }
 }
