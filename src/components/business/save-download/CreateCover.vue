@@ -11,8 +11,7 @@
 
 <script lang="ts" setup>
 import html2canvas from 'html2canvas'
-import Qiniu from '@/common/methods/QiNiu'
-// import { useSetupMapGetters } from '@/common/hooks/mapGetters'
+import { upload } from '@/api/material'
 import { storeToRefs } from 'pinia'
 import { useCanvasStore, useWidgetStore } from '@/store'
 import FontFaceObserver from 'fontfaceobserver'
@@ -52,12 +51,13 @@ async function createCover(cb: any) {
       canvas.toBlob(
         async (blobObj) => {
           if (blobObj) {
-            const result = await Qiniu.upload(blobObj, { bucket: 'xp-design', prePath: 'cover/user' })
+            const file = new File([blobObj], `cover_${Date.now()}.jpg`, { type: 'image/jpeg' })
+            const result = await upload({ file, folder: 'covers' }, () => {})
             cb(result)
           }
         },
         'image/jpeg',
-        0.15,
+        0.5,
       )
       canvasStore.updateZoom(nowZoom)
       // store.dispatch('updateZoom', nowZoom)

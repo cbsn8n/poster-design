@@ -84,11 +84,11 @@ export async function saveTemplate(req: any, res: any) {
    * @apiVersion 1.0.0
    * @apiGroup design
    */
-  let { id, title, data, width, height, type, cate, tag } = req.body
+  let { id, title, data, width, height, type, cate, tag, cover } = req.body
   const folder = type == 1 ? 'components/detail' : 'templates'
   const listPath = type == 1 ? 'components/list/comp.json' : 'templates/list.json'
   try {
-    const isAdd = !id // 是否新增模板
+    const isAdd = !id
     id = id || randomCode(8)
     const savePath = path.resolve(__dirname, `../mock/${folder}/${id}.json`)
     const jsonData = {
@@ -102,26 +102,9 @@ export async function saveTemplate(req: any, res: any) {
     if (isAdd) {
       const listVal = fs.readFileSync(path.resolve(__dirname, `../mock/${listPath}`), 'utf8')
       const list = JSON.parse(listVal)
-      list.unshift({ id, cover: '', title: title || 'Custom Template', width, height })
+      list.unshift({ id, cover: cover || '', title: title || 'Custom Template', width, height })
       fs.writeFileSync(path.resolve(__dirname, `../mock/${listPath}`), JSON.stringify(list))
     }
-    // Try generating cover in background (non-blocking)
-    const size = width > height ? 640 : 320
-    const fetchScreenshotUrl = `http://localhost:7001/api/screenshots?tempid=${id}&tempType=${type}&width=${width}&height=${height}&type=cover&size=${size}&quality=75`
-    axios.get(fetchScreenshotUrl, { responseType: 'arraybuffer', timeout: 30000 })
-      .then(() => {
-        // Update cover URL in list
-        try {
-          const lv = fs.readFileSync(path.resolve(__dirname, `../mock/${listPath}`), 'utf8')
-          const ls = JSON.parse(lv)
-          const item = ls.find((x: any) => x.id === id)
-          if (item) {
-            item.cover = `/static/${id}-cover.jpg`
-            fs.writeFileSync(path.resolve(__dirname, `../mock/${listPath}`), JSON.stringify(ls))
-          }
-        } catch (e) {}
-      })
-      .catch((e: any) => console.log('Cover generation failed:', e.message))
     send.success(res, { id })
   } catch (error) {
     console.log(error)

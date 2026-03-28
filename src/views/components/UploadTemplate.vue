@@ -71,17 +71,17 @@ const state = reactive<TState>({
 useFontStore.init() // 初始化加载Font
 
 // 生成封面
-// const draw = () => {
-//   return new Promise<string>((resolve) => {
-//     if (!canvasImage.value) {
-//       resolve('')
-//     } else {
-//       canvasImage.value.createCover(({ key }: { key: string }) => {
-//         resolve(_config.IMG_URL + key)
-//       })
-//     }
-//   })
-// }
+const draw = () => {
+  return new Promise<string>((resolve) => {
+    if (!canvasImage.value) {
+      resolve('')
+    } else {
+      canvasImage.value.createCover(({ url }: { url: string }) => {
+        resolve(url || '')
+      })
+    }
+  })
+}
 
 let addition = 0 // 累加Size
 let lenCount = 0 // AllSize
@@ -149,9 +149,9 @@ async function uploadImgs() {
 
 const uploadTemplate = async () => {
   emit('change', { downloadPercent: 95, downloadText: 'Processing cover', downloadMsg: 'Almost done...' })
-  // const cover = await draw()
+  const cover = await draw()
   const data = Number(type) == 1 ? JSON.stringify(widgets) : JSON.stringify({ page, widgets })
-  const { id, stat, msg } = await api.home.saveTemp({ title: 'Custom Template', type, data, width: page.width, height: page.height })
+  const { id, stat, msg } = await api.home.saveTemp({ title: 'Custom Template', type, data, width: page.width, height: page.height, cover })
   stat !== 0 ? useNotification('Saved successfully', '') : useNotification('Save failed', msg, { type: 'error' })
   router.push({ path: '/psd', query: { id }, replace: true })
   emit('change', { downloadPercent: 99.99, downloadText: '上传Done', cancelText: '' }) // Close弹窗

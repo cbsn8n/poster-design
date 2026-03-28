@@ -9,7 +9,7 @@ fi
 rm -rf /usr/src/app/mock
 ln -sf /cache/mock /usr/src/app/mock
 
-# Also ensure user upload dir exists
-mkdir -p /cache/user /cache/psd
+# Also ensure upload dirs exist
+mkdir -p /cache/user /cache/psd /cache/covers
 
 exec node server/index.js
