@@ -8,7 +8,7 @@ RUN sed -i "s|website: 'http://127.0.0.1:5173/'|website: 'http://poster-web'|g" 
 # Patch: fix FileUrl to use relative paths instead of localhost
 RUN find src -name "*.ts" -exec sed -i "s|http://localhost:7001/static/|/static/|g" {} +
 # Patch: use PUPPETEER_EXECUTABLE_PATH env var for chrome path
-RUN sed -i "s|executablePath = isDev ? null : '/opt/google/chrome-unstable/chrome'|executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium'|g" src/configs.ts
+RUN sed -i "s#executablePath = isDev ? null : '/opt/google/chrome-unstable/chrome'#executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium'#g" src/configs.ts
 # Patch: fix en-dash characters in puppeteer args (Chrome doesn't understand them)
 RUN find src -name "*.ts" -exec sed -i 's/\xe2\x80\x93/--/g' {} +
 RUN npm run build && cp -r ./src/mock ./dist
