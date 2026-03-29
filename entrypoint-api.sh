@@ -1,7 +1,8 @@
 #!/bin/sh
-# On first run, copy mock data to persistent volume
-if [ ! -d /cache/mock ]; then
-  echo "First run: copying mock data to /cache/mock"
+# On first run or if mock is empty, copy default mock data to persistent volume
+if [ ! -d /cache/mock ] || [ ! -f /cache/mock/templates/list.json ]; then
+  echo "Initializing: copying mock data to /cache/mock"
+  rm -rf /cache/mock
   cp -r /usr/src/app/mock /cache/mock
 fi
 
