@@ -6,9 +6,6 @@
 import { Request, Response } from 'express'
 import fs from 'fs'
 import path from 'path'
-import { saveScreenshot } from '../utils/download-single'
-import { filePath, drawLink } from '../configs'
-import { queueRun } from '../utils/node-queue'
 import { randomCode, send } from '../utils/tools'
 
 // GET /api/template-info?id=xxx - list text layers in a template
@@ -102,37 +99,46 @@ export async function render(req: Request, res: Response) {
     const tempPath = path.resolve(__dirname, `../mock/templates/${tempId}.json`)
     fs.writeFileSync(tempPath, JSON.stringify(tempTpl))
 
-    // 4. Render via Puppeteer
-    const width = tpl.width
-    const height = tpl.height
-    const screenshotPath = filePath + `${tempId}-screenshot.png`
-    const targetUrl = drawLink + `?tempid=${tempId}`
+    // 4. Return URLs for the modified template
+    // The draw page will load the template and render it in the browser
+    const drawUrl = `/draw?tempid=${tempId}`
+    const editUrl = `/home?tempid=${tempId}`
 
-    try {
-      await queueRun(saveScreenshot, targetUrl, {
-        width: String(width),
-        height: String(height),
-        path: screenshotPath,
-        thumbPath: null,
-        size: null,
-        quality: String(quality),
-      })
-
-      // 5. Return image
-      res.setHeader('Content-Type', 'image/png')
-      res.sendFile(screenshotPath, () => {
-        // Cleanup temp files after sending
-        try { fs.unlinkSync(tempPath) } catch (_) {}
-        try { fs.unlinkSync(screenshotPath) } catch (_) {}
-      })
-    } catch (renderErr: any) {
-      // Cleanup temp template on error
-      try { fs.unlinkSync(tempPath) } catch (_) {}
-      res.json({ code: 500, msg: `Render failed: ${renderErr.message}` })
-    }
+    res.json({
+      code: 200,
+      data: {
+        tempId,
+        drawUrl,
+        editUrl,
+        width: tpl.width,
+        height: tpl.height,
+        title: tpl.title,
+      },
+    })
   } catch (e: any) {
     res.json({ code: 500, msg: `Error: ${e.message}` })
   }
 }
 
-export default { render, templateInfo }
+// GET /api/templates - list all available templates
+export async function listTemplates(req: Request, res: Response) {
+  try {
+    const listPath = path.resolve(__dirname, '../mock/templates/list.json')
+    const raw = fs.readFileSync(listPath, 'utf8')
+    const list = JSON.parse(raw)
+    res.json({
+      code: 200,
+      data: list.map((t: any) => ({
+        id: t.id,
+        title: t.title || '',
+        width: t.width,
+        height: t.height,
+        cover: t.cover || '',
+      })),
+    })
+  } catch (e: any) {
+    res.json({ code: 200, data: [] })
+  }
+}
+
+export default { render, templateInfo, listTemplates }

@@ -23,4 +23,5 @@ export default {
   MY_DESIGNS: '/design/my',
   RENDER: path + '/render',
   TEMPLATE_INFO: path + '/template-info',
+  TEMPLATES_LIST: path + '/templates',
 }

@@ -28,5 +28,6 @@ rRouter.post(api.DELETE_TEMPLATE, designService.deleteTemplate)
 rRouter.get(api.MY_DESIGNS, designService.getMyDesigns)
 rRouter.post(api.RENDER, renderService.render)
 rRouter.get(api.TEMPLATE_INFO, renderService.templateInfo)
+rRouter.get(api.TEMPLATES_LIST, renderService.listTemplates)
 
 export default rRouter
