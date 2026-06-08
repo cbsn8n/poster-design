@@ -11,6 +11,9 @@ import fileService from '../service/files'
 import userService from '../service/user'
 import designService from '../service/design'
 import renderService from '../service/render'
+import assetService from '../service/assets'
+import designCreate from '../service/design-create'
+import { requireApiToken } from '../utils/auth'
 import api from './api'
 const rRouter = rExpress.Router()
 
@@ -29,5 +32,10 @@ rRouter.get(api.MY_DESIGNS, designService.getMyDesigns)
 rRouter.post(api.RENDER, renderService.render)
 rRouter.get(api.TEMPLATE_INFO, renderService.templateInfo)
 rRouter.get(api.TEMPLATES_LIST, renderService.listTemplates)
+
+// avaposter extensions (пишущие — под опциональным Bearer-токеном)
+rRouter.post(api.ASSET_FROM_URL, requireApiToken, assetService.fromUrl)
+rRouter.post(api.DESIGN_CREATE, requireApiToken, designCreate.create)
+rRouter.get(api.DESIGN_PREVIEW, designCreate.preview)
 
 export default rRouter
