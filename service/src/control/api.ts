@@ -24,4 +24,8 @@ export default {
   RENDER: path + '/render',
   TEMPLATE_INFO: path + '/template-info',
   TEMPLATES_LIST: path + '/templates',
+  // avaposter extensions (posteren-api-extension-spec)
+  ASSET_FROM_URL: path + '/asset/from-url',
+  DESIGN_CREATE: path + '/design/create',
+  DESIGN_PREVIEW: path + '/design/preview',
 }
