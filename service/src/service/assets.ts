@@ -1,8 +1,15 @@
 /**
- * POST /api/asset/from-url — локализация внешней картинки в /static/psd/
- * (нужно для Mode 2/1/3/4: фон от grsai/Supabase сохраняем локально, чтобы
- *  imgUrl был относительным и гарантированно рендерился).
+ * POST /api/asset/from-url — локализация картинки в /static/psd/.
+ * Принимает:
+ *   - { url }           — внешний http(s) URL (скачиваем, с SSRF-защитой)
+ *   - { base64 }        — base64 (с data:-префиксом или без; mime опц. через { mime })
+ *   - { dataUrl }       — то же, что base64 с data:-префиксом
+ *   - url может быть и data:image/...;base64,... — распознаём автоматически
+ * Нужно для Mode 2/1/3/4 (фон от grsai/Supabase/новых моделей → локальный путь).
  * См. posteren-api-extension-spec §4.
+ *
+ * Примечание по лимиту тела: глобально стоит bodyParser.json({ limit: '100mb' })
+ * в main.ts, поэтому base64 PNG 1024² (~2–4 МБ) проходит без доп. настройки.
  */
 import { Request, Response } from 'express'
 import fs from 'fs'
@@ -53,11 +60,31 @@ function hostAllowed(hostname: string): boolean {
   return list.some((d) => h === d || h.endsWith('.' + d))
 }
 
-// Скачать внешний URL в /static/<subdir>/ с защитой от SSRF. Возвращает относительный путь.
-export async function downloadImageToStatic(
-  url: string,
-  subdir = 'psd',
-): Promise<{ path: string; width?: number; height?: number; bytes: number }> {
+// Записать буфер картинки в /static/<subdir>/ и вернуть относительный путь.
+function persistBuffer(buf: Buffer, mime: string, subdir: string) {
+  if (buf.length > 50 * 1024 * 1024) throw { status: 413, msg: 'too large' }
+
+  let width: number | undefined
+  let height: number | undefined
+  try {
+    const dim = sizeOf(buf)
+    width = dim.width
+    height = dim.height
+  } catch (e) {
+    // размеры не критичны
+  }
+
+  const ext = EXT_BY_MIME[mime] || '.png'
+  const name = randomCode(8) + ext
+  const folder = `${filePath}${subdir}/`
+  checkCreateFolder(folder)
+  fs.writeFileSync(`${folder}${name}`, buf)
+
+  return { path: `/static/${subdir}/${name}`, width, height, bytes: buf.length }
+}
+
+// Скачать внешний URL в /static/<subdir>/ с защитой от SSRF.
+export async function downloadImageToStatic(url: string, subdir = 'psd') {
   if (!/^https?:\/\//i.test(url)) throw { status: 400, msg: 'invalid url' }
 
   const parsed = new URL(url)
@@ -86,37 +113,52 @@ export async function downloadImageToStatic(
   const ct = String(resp.headers['content-type'] || '').split(';')[0].trim().toLowerCase()
   if (!ct.startsWith('image/')) throw { status: 415, msg: 'not an image' }
 
-  const buf = Buffer.from(resp.data)
-  if (buf.length > 50 * 1024 * 1024) throw { status: 413, msg: 'too large' }
+  return persistBuffer(Buffer.from(resp.data), ct, subdir)
+}
 
-  let width: number | undefined
-  let height: number | undefined
-  try {
-    const dim = sizeOf(buf)
-    width = dim.width
-    height = dim.height
-  } catch (e) {
-    // размеры не критичны
+// Сохранить base64 (с data:-префиксом или без) в /static/<subdir>/.
+export function decodeBase64ToStatic(input: string, subdir = 'psd', mimeHint?: string) {
+  let mime = (mimeHint || '').toLowerCase()
+  let b64 = input.trim()
+
+  const m = b64.match(/^data:([^;,]+)?(?:;base64)?,(.*)$/is)
+  if (m) {
+    if (m[1]) mime = m[1].toLowerCase()
+    b64 = m[2]
   }
+  b64 = b64.replace(/\s/g, '')
+  if (!b64) throw { status: 422, msg: 'empty base64' }
 
-  const ext = EXT_BY_MIME[ct] || '.png'
-  const name = randomCode(8) + ext
-  const folder = `${filePath}${subdir}/`
-  checkCreateFolder(folder)
-  fs.writeFileSync(`${folder}${name}`, buf)
+  let buf: Buffer
+  try {
+    buf = Buffer.from(b64, 'base64')
+  } catch (e) {
+    throw { status: 422, msg: 'invalid base64' }
+  }
+  if (buf.length === 0) throw { status: 422, msg: 'invalid base64' }
 
-  return { path: `/static/${subdir}/${name}`, width, height, bytes: buf.length }
+  if (!mime || !mime.startsWith('image/')) mime = 'image/png'
+  return persistBuffer(buf, mime, subdir)
 }
 
 export async function fromUrl(req: Request, res: Response) {
   try {
-    const { url, subdir = 'psd' } = req.body || {}
-    if (!url) {
-      res.status(422).json({ code: 422, msg: 'url required' })
+    const body = req.body || {}
+    const { url, base64, dataUrl, mime, subdir = 'psd' } = body
+    const safeSubdir = String(subdir).replace(/[^a-zA-Z0-9_-]/g, '') || 'psd'
+
+    const inlineB64 = base64 || dataUrl || (typeof url === 'string' && /^data:/i.test(url) ? url : null)
+
+    let result
+    if (inlineB64) {
+      result = decodeBase64ToStatic(String(inlineB64), safeSubdir, mime)
+    } else if (url) {
+      result = await downloadImageToStatic(String(url), safeSubdir)
+    } else {
+      res.status(422).json({ code: 422, msg: 'url or base64 required' })
       return
     }
-    const safeSubdir = String(subdir).replace(/[^a-zA-Z0-9_-]/g, '') || 'psd'
-    const result = await downloadImageToStatic(String(url), safeSubdir)
+
     res.status(201).json({ code: 200, data: result })
   } catch (e: any) {
     const status = e && e.status ? e.status : 502
@@ -124,4 +166,4 @@ export async function fromUrl(req: Request, res: Response) {
   }
 }
 
-export default { fromUrl, downloadImageToStatic }
+export default { fromUrl, downloadImageToStatic, decodeBase64ToStatic }
