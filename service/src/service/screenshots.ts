@@ -9,7 +9,8 @@ import { saveScreenshot } from '../utils/download-single'
 import uuid from '../utils/uuid'
 import { filePath, upperLimit, drawLink } from '../configs'
 import { queueRun, queueList } from '../utils/node-queue'
-// const path = require('path')
+import fs from 'fs'
+import nodePath from 'path'
 
 /**
  * @api {get} api/screenshots 截图
@@ -32,6 +33,29 @@ export async function screenshots(req: any, res: any) {
   id == 'undefined' && (id = null)
   const url = (screenshot_url || drawLink) + `${id ? '?id=' : '?tempid='}`
   id = id || tempid
+
+  // avaposter: width/height не обязательны — если их нет, берём размеры из шаблона.
+  // Если задан только width (превью-тумбнейл), трактуем его как `size` (масштаб по ширине),
+  // а вьюпорт ставим в натуральные размеры шаблона.
+  if (id && (!width || !height)) {
+    try {
+      const tplRaw = fs.readFileSync(nodePath.resolve(__dirname, `../mock/templates/${id}.json`), 'utf8')
+      const tpl = JSON.parse(tplRaw)
+      const tplW = Number(tpl.width) || 1080
+      const tplH = Number(tpl.height) || 1080
+      if (width && !height) {
+        if (!size && Number(width) < tplW) size = width
+        width = tplW
+        height = tplH
+      } else {
+        width = width || tplW
+        height = height || tplH
+      }
+    } catch (e) {
+      // шаблон не прочитался — оставляем как есть (ниже вернётся 缺少参数)
+    }
+  }
+
   const path = filePath + `${id}-screenshot.png`
   const thumbPath = type === 'cover' && tempType != 1 ? filePath + `${id}-cover.jpg` : null
 
