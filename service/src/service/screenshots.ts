@@ -67,13 +67,24 @@ export async function screenshots(req: any, res: any) {
     const targetUrl = url + id + `${tempType ? '&tempType=' + tempType : ''}` + `&index=${index}`
     queueRun(saveScreenshot, targetUrl, { width, height, path, thumbPath, size, quality })
       .then(() => {
+        const outPath = type === 'file' ? path : thumbPath
+        // saveScreenshot мог завершиться по таймауту без файла — не виснем, отдаём понятную ошибку.
+        if (!outPath || !fs.existsSync(outPath)) {
+          console.error('[screenshots] file not generated', { targetUrl, outPath, width, height })
+          if (!res.headersSent) res.json({ code: 500, msg: 'screenshot not generated (draw render/timeout)' })
+          return
+        }
         res.setHeader('Content-Type', 'image/jpg')
-        // const stats = fs.statSync(path)
-        // res.setHeader('Cache-Control', stats.size)
-        type === 'file' ? res.sendFile(path) : res.sendFile(thumbPath)
+        res.sendFile(outPath, (err: any) => {
+          if (err) {
+            console.error('[screenshots] sendFile error', err && (err.message || err))
+            if (!res.headersSent) res.json({ code: 500, msg: 'sendFile error' })
+          }
+        })
       })
       .catch((e: any) => {
-        res.json({ code: 500, msg: '图片生成错误' })
+        console.error('[screenshots] error', targetUrl, e && (e.message || e))
+        if (!res.headersSent) res.json({ code: 500, msg: 'screenshot error: ' + (e && (e.message || String(e))) })
       })
   } else {
     res.json({ code: 500, msg: '缺少参数，请检查' })
