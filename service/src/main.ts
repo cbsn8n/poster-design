@@ -16,6 +16,15 @@ import handleTimeout from './utils/timeout'
 const port = process.env.PORT || servicePort
 const app = express()
 
+// Не падаем целиком из-за одной задачи (например, сбой запуска puppeteer):
+// логируем и продолжаем работать, иначе один скриншот ронял контейнер.
+process.on('unhandledRejection', (reason) => {
+  console.error('UnhandledRejection:', reason)
+})
+process.on('uncaughtException', (err) => {
+  console.error('UncaughtException:', err)
+})
+
 // 创建目录
 const createFolder = (folder: string) => {
   try {
