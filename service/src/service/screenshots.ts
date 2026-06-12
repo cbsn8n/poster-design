@@ -59,13 +59,34 @@ export async function screenshots(req: any, res: any) {
   const path = filePath + `${id}-screenshot.png`
   const thumbPath = type === 'cover' && tempType != 1 ? filePath + `${id}-cover.jpg` : null
 
+  // Кэш: если готовый скриншот свежее JSON шаблона — отдаём его без повторного рендера.
+  // Инвалидируется автоматически при /design/edit (меняется mtime файла шаблона).
+  // Обход кэша: &refresh=1.
+  if (id && type === 'file' && req.query.refresh != '1') {
+    try {
+      if (fs.existsSync(path)) {
+        const imgM = fs.statSync(path).mtimeMs
+        const tplPath = nodePath.resolve(__dirname, `../mock/templates/${id}.json`)
+        const tplM = fs.existsSync(tplPath) ? fs.statSync(tplPath).mtimeMs : 0
+        if (imgM >= tplM) {
+          res.setHeader('Content-Type', 'image/png')
+          res.setHeader('Cache-Control', 'public, max-age=300')
+          res.sendFile(path)
+          return
+        }
+      }
+    } catch (e) {}
+  }
+
   if (id && width && height) {
     if (queueList.length > upperLimit) {
       res.json({ code: 200, msg: '服务器表示顶不住啊，等等再来吧~' })
       return
     }
     const targetUrl = url + id + `${tempType ? '&tempType=' + tempType : ''}` + `&index=${index}`
-    queueRun(saveScreenshot, targetUrl, { width, height, path, thumbPath, size, quality })
+    // prevent=true: ждём сигнал готовности страницы /draw (loadFinishToInject),
+    // т.е. снимаем после полной отрисовки (шрифты/картинки/фон), а не на 'load'.
+    queueRun(saveScreenshot, targetUrl, { width, height, path, thumbPath, size, quality, prevent: true })
       .then(() => {
         const outPath = type === 'file' ? path : thumbPath
         // saveScreenshot мог завершиться по таймауту без файла — не виснем, отдаём понятную ошибку.
@@ -74,7 +95,8 @@ export async function screenshots(req: any, res: any) {
           if (!res.headersSent) res.json({ code: 500, msg: 'screenshot not generated (draw render/timeout)' })
           return
         }
-        res.setHeader('Content-Type', 'image/jpg')
+        res.setHeader('Content-Type', 'image/png')
+        res.setHeader('Cache-Control', 'public, max-age=300')
         res.sendFile(outPath, (err: any) => {
           if (err) {
             console.error('[screenshots] sendFile error', err && (err.message || err))
