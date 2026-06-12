@@ -24,8 +24,11 @@ export const saveScreenshot = async (url: string, { path, width, height, thumbPa
     height = Number(height).toFixed(0)
 
     const puppeteerArgs = {
-      old: ['–no-first-run', '--no-sandbox', '--disable-setuid-sandbox', `--window-size=${width},${height}`, '–single-process', '–disable-gpu', '–no-zygote', '–disable-dev-shm-usage'],
-      new: [ '–no-first-run', '--no-sandbox', '--disable-setuid-sandbox', `--window-size=${width},${height}` ]
+      // ВАЖНО: только двойной дефис `--`. En-dash `–` Chrome принимает за URL-цель
+      // → "Multiple targets are not supported in headless mode" и краш запуска.
+      // --single-process убран намеренно (нестабилен в headless-контейнере).
+      old: ['--no-first-run', '--no-sandbox', '--disable-setuid-sandbox', `--window-size=${width},${height}`, '--disable-gpu', '--no-zygote', '--disable-dev-shm-usage'],
+      new: ['--no-first-run', '--no-sandbox', '--disable-setuid-sandbox', `--window-size=${width},${height}`, '--disable-dev-shm-usage'],
     }
     // 启动浏览器
     try {
@@ -40,7 +43,7 @@ export const saveScreenshot = async (url: string, { path, width, height, thumbPa
       console.log('Puppeteer Error: ', error, '窗口大小：', width, height);
     }
     if (!browser) {
-      reject()
+      reject(new Error('puppeteer launch failed'))
       return false
     }
     const regulators = setTimeout(() => {
