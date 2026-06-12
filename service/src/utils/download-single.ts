@@ -69,13 +69,25 @@ export const saveScreenshot = async (url: string, { path, width, height, thumbPa
       devices = puppeteer.devices[devices]
       devices && (await page.emulate(devices))
     }
+    // Снимаем именно холст дизайна (#page-design-canvas) — это даёт пиксель-в-пиксель
+    // размер макета. Фоллбэк на fullPage, если элемент не найден.
+    const shootDesign = async () => {
+      try {
+        const el = await page.$('#page-design-canvas')
+        if (el) {
+          await el.screenshot({ path })
+          return
+        }
+      } catch (e) {}
+      await page.screenshot({ path, fullPage: true })
+    }
     // 自动模式下页面加载完毕立即截图
     if (!prevent) {
       page.on('load', async () => {
         await autoScroll()
         await sleep(wait)
         // await waitTillHTMLRendered(page)
-        await page.screenshot({ path, fullPage: true })
+        await shootDesign()
         // 关闭浏览器
         await browser.close()
         browser = null
@@ -87,8 +99,7 @@ export const saveScreenshot = async (url: string, { path, width, height, thumbPa
     // 主动模式下注入全局方法
     await page.exposeFunction('loadFinishToInject', async () => {
       // console.log('-> 开始截图')
-      // await page.evaluate(() => document.body.style.background = 'transparent');
-      await page.screenshot({ path, omitBackground: true })
+      await shootDesign()
       // 关闭浏览器
       browserClose()
       compress()
